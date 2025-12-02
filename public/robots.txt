@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://riadjamal07.github.io/Adaptiv/sitemap.xml
