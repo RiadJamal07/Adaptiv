@@ -64,19 +64,6 @@ const Hero = () => {
                     scrub: true,
                 },
             });
-
-            // Fade out content on scroll
-            gsap.to([headlineRef.current, subtitleRef.current, ctaRef.current], {
-                opacity: 0,
-                y: -50,
-                ease: 'none',
-                scrollTrigger: {
-                    trigger: containerRef.current,
-                    start: '20% top',
-                    end: '60% top',
-                    scrub: true,
-                },
-            });
         }, containerRef);
 
         return () => ctx.revert();
