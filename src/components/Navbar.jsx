@@ -81,11 +81,18 @@ const Navbar = () => {
         return () => window.removeEventListener('scroll', handleScroll);
     }, []);
 
-    const handleScroll = (e, path) => {
+    const handleNavClick = (e, path) => {
         e.preventDefault();
         const element = document.querySelector(path);
         if (element) {
-            element.scrollIntoView({ behavior: 'smooth' });
+            const navHeight = 80;
+            const elementPosition = element.getBoundingClientRect().top + window.pageYOffset;
+            const offsetPosition = elementPosition - navHeight;
+
+            window.scrollTo({
+                top: path === '#home' ? 0 : offsetPosition,
+                behavior: 'smooth'
+            });
             setIsOpen(false);
         }
     };
@@ -105,7 +112,7 @@ const Navbar = () => {
             <div className="container" style={styles.container}>
                 <motion.a
                     href="#home"
-                    onClick={(e) => handleScroll(e, '#home')}
+                    onClick={(e) => handleNavClick(e, '#home')}
                     style={styles.logoContainer}
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
@@ -119,7 +126,7 @@ const Navbar = () => {
                         <li key={link.name}>
                             <MagneticLink
                                 href={link.path}
-                                onClick={(e) => handleScroll(e, link.path)}
+                                onClick={(e) => handleNavClick(e, link.path)}
                             >
                                 {link.name}
                             </MagneticLink>
@@ -151,7 +158,7 @@ const Navbar = () => {
                                 <motion.a
                                     key={link.name}
                                     href={link.path}
-                                    onClick={(e) => handleScroll(e, link.path)}
+                                    onClick={(e) => handleNavClick(e, link.path)}
                                     style={styles.mobileLink}
                                     initial={{ opacity: 0, x: -20 }}
                                     animate={{ opacity: 1, x: 0 }}
