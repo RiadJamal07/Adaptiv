@@ -13,7 +13,6 @@ import HyperplexedCarousel from './components/HyperplexedCarousel';
 import QuoteInterstitial from './components/QuoteInterstitial';
 import CustomCursor from './components/CustomCursor';
 import SmoothScroll from './components/SmoothScroll';
-import { AnimatePresence } from 'framer-motion';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -30,11 +29,7 @@ function App() {
   return (
     <SmoothScroll>
       <CustomCursor />
-      <div style={{ position: 'relative' }}>
-        <AnimatePresence mode="wait">
-          {loading && <Preloader setLoading={setLoading} />}
-        </AnimatePresence>
-      </div>
+      {loading && <Preloader setLoading={setLoading} />}
 
       {!loading && (
         <div className="app-container">

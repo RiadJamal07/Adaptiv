@@ -1,12 +1,23 @@
-import React, { useEffect } from 'react';
-import { motion } from 'framer-motion';
+import React, { useEffect, useState } from 'react';
 
 const Preloader = ({ setLoading }) => {
+    const [fadeOut, setFadeOut] = useState(false);
+
     useEffect(() => {
-        const timer = setTimeout(() => {
+        // Start fade out before removing
+        const fadeTimer = setTimeout(() => {
+            setFadeOut(true);
+        }, 3000);
+
+        // Remove preloader after fade
+        const removeTimer = setTimeout(() => {
             setLoading(false);
-        }, 3500); // Allow time for animation
-        return () => clearTimeout(timer);
+        }, 3800);
+
+        return () => {
+            clearTimeout(fadeTimer);
+            clearTimeout(removeTimer);
+        };
     }, [setLoading]);
 
     const orangePaths = [
@@ -25,56 +36,63 @@ const Preloader = ({ setLoading }) => {
     ];
 
     return (
-        <motion.div
-            style={styles.container}
-            initial={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.8, ease: "easeInOut" }}
-            layout={false}
+        <div
+            style={{
+                ...styles.container,
+                opacity: fadeOut ? 0 : 1,
+                transition: 'opacity 0.8s ease-in-out',
+            }}
         >
             <div style={styles.logoContainer}>
                 <svg
                     viewBox="0 0 2067 732"
                     style={styles.svg}
                 >
+                    <style>
+                        {`
+                            @keyframes drawPath {
+                                to {
+                                    stroke-dashoffset: 0;
+                                }
+                            }
+                            .preloader-path-orange {
+                                stroke-dasharray: 3000;
+                                stroke-dashoffset: 3000;
+                                animation: drawPath 2s ease-in-out forwards;
+                            }
+                            .preloader-path-dark {
+                                stroke-dasharray: 2000;
+                                stroke-dashoffset: 2000;
+                                animation: drawPath 2s ease-in-out 0.5s forwards;
+                            }
+                        `}
+                    </style>
                     {/* Orange Paths */}
                     {orangePaths.map((d, i) => (
-                        <motion.path
+                        <path
                             key={`orange-${i}`}
                             d={d}
                             fill="transparent"
                             stroke="#E15330"
                             strokeWidth="5"
-                            initial={{ pathLength: 0, fillOpacity: 0 }}
-                            animate={{ pathLength: 1, fillOpacity: 1 }}
-                            transition={{
-                                pathLength: { duration: 2, ease: "easeInOut" },
-                                fillOpacity: { duration: 0.5, delay: 2 }
-                            }}
-                            layout={false}
+                            className="preloader-path-orange"
                         />
                     ))}
 
                     {/* Dark Paths */}
                     {darkPaths.map((d, i) => (
-                        <motion.path
+                        <path
                             key={`dark-${i}`}
                             d={d}
                             fill="transparent"
                             stroke="#F8F9DF"
                             strokeWidth="5"
-                            initial={{ pathLength: 0, fillOpacity: 0 }}
-                            animate={{ pathLength: 1, fillOpacity: 1 }}
-                            transition={{
-                                pathLength: { duration: 2, ease: "easeInOut", delay: 0.5 },
-                                fillOpacity: { duration: 0.5, delay: 2.5 }
-                            }}
-                            layout={false}
+                            className="preloader-path-dark"
                         />
                     ))}
                 </svg>
             </div>
-        </motion.div>
+        </div>
     );
 };
 

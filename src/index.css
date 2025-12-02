@@ -1,12 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&display=swap');
 
-@font-face {
-  font-family: 'Blazed';
-  src: url('/fonts/blazed-spike.otf') format('opentype');
-  font-weight: normal;
-  font-style: normal;
-}
-
 :root {
   --primary: #E1522F;
   --primary-dim: rgba(225, 82, 47, 0.2);
