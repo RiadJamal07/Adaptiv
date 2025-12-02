@@ -13,11 +13,20 @@ import HyperplexedCarousel from './components/HyperplexedCarousel';
 import QuoteInterstitial from './components/QuoteInterstitial';
 import CustomCursor from './components/CustomCursor';
 import SmoothScroll from './components/SmoothScroll';
+import heroVideo from './assets/hero-video.mp4';
 
 gsap.registerPlugin(ScrollTrigger);
 
 function App() {
   const [loading, setLoading] = useState(true);
+
+  // Preload hero video during preloader phase
+  useEffect(() => {
+    const video = document.createElement('video');
+    video.preload = 'auto';
+    video.src = heroVideo;
+    video.load();
+  }, []);
 
   // Refresh ScrollTrigger after loading completes
   useEffect(() => {
