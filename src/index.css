@@ -190,8 +190,13 @@ section {
   z-index: 1;
 }
 
-/* Hero section - no padding, full viewport */
+/* Hero section - no padding */
 section#home {
+  padding: 0;
+}
+
+/* Gallery section - no padding */
+section#gallery {
   padding: 0;
 }
 

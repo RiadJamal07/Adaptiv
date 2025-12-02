@@ -16,7 +16,7 @@ const Testimonials = () => {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.5 }}
-            style={{ paddingTop: 'clamp(80px, 15vh, 120px)', minHeight: '100vh', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}
+            style={{ minHeight: '80vh', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}
         >
             <div className="container">
                 <h1 style={{ textAlign: 'center', marginBottom: 'clamp(2rem, 5vh, 4rem)' }}>Success Stories</h1>
