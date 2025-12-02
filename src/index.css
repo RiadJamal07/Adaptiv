@@ -190,6 +190,11 @@ section {
   z-index: 1;
 }
 
+/* Hero section - no padding, full viewport */
+section#home {
+  padding: 0;
+}
+
 .app-container {
   position: relative;
   z-index: 1;
