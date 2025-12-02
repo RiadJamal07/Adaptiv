@@ -1,4 +1,21 @@
+# Robots.txt for Adaptiv Coaching
+# https://riadjamal07.github.io/Adaptiv/
+
 User-agent: *
 Allow: /
 
+# Sitemap location
 Sitemap: https://riadjamal07.github.io/Adaptiv/sitemap.xml
+
+# Crawl-delay for polite crawling
+Crawl-delay: 1
+
+# Google specific
+User-agent: Googlebot
+Allow: /
+Crawl-delay: 0
+
+# Bing specific
+User-agent: Bingbot
+Allow: /
+Crawl-delay: 1
