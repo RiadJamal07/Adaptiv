@@ -1,11 +1,11 @@
 # Robots.txt for Adaptiv Coaching
-# https://riadjamal07.github.io/Adaptiv/
+# https://adaptiv.fit/
 
 User-agent: *
 Allow: /
 
 # Sitemap location
-Sitemap: https://riadjamal07.github.io/Adaptiv/sitemap.xml
+Sitemap: https://adaptiv.fit/sitemap.xml
 
 # Crawl-delay for polite crawling
 Crawl-delay: 1
