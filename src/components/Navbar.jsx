@@ -258,7 +258,7 @@ const styles = {
         left: 0,
         width: '100%',
         height: '2px',
-        background: 'rgba(255,255,255,0.3)',
+        background: 'var(--primary)',
         transformOrigin: 'left',
         transition: 'transform 0.1s linear',
     },
