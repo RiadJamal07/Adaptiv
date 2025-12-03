@@ -11,7 +11,9 @@ const Hero = () => {
     const subtitleRef = useRef(null);
     const ctaRef = useRef(null);
     const videoRef = useRef(null);
+    const scrollIndicatorRef = useRef(null);
     const [videoLoaded, setVideoLoaded] = useState(false);
+    const magneticRef = useRef(null);
 
     useEffect(() => {
         const ctx = gsap.context(() => {
@@ -64,6 +66,55 @@ const Hero = () => {
                     scrub: true,
                 },
             });
+
+            // Magnetic CTA button effect
+            const magneticBtn = magneticRef.current;
+            if (magneticBtn) {
+                const handleMouseMove = (e) => {
+                    const rect = magneticBtn.getBoundingClientRect();
+                    const x = e.clientX - rect.left - rect.width / 2;
+                    const y = e.clientY - rect.top - rect.height / 2;
+
+                    const distance = Math.sqrt(x * x + y * y);
+                    const pullRadius = 80;
+
+                    if (distance < pullRadius) {
+                        const pullFactor = 0.3;
+                        gsap.to(magneticBtn, {
+                            x: x * pullFactor,
+                            y: y * pullFactor,
+                            duration: 0.4,
+                            ease: 'power2.out',
+                        });
+                    }
+                };
+
+                const handleMouseLeave = () => {
+                    gsap.to(magneticBtn, {
+                        x: 0,
+                        y: 0,
+                        duration: 0.6,
+                        ease: 'elastic.out(1, 0.3)',
+                    });
+                };
+
+                const magneticArea = magneticBtn.parentElement;
+                magneticArea.addEventListener('mousemove', handleMouseMove);
+                magneticBtn.addEventListener('mouseleave', handleMouseLeave);
+            }
+
+            // Breathing scroll indicator animation
+            if (scrollIndicatorRef.current) {
+                gsap.to(scrollIndicatorRef.current, {
+                    scale: 1.15,
+                    opacity: 0.6,
+                    filter: 'drop-shadow(0 0 12px rgba(225, 82, 47, 0.6))',
+                    duration: 1.5,
+                    ease: 'sine.inOut',
+                    repeat: -1,
+                    yoyo: true,
+                });
+            }
         }, containerRef);
 
         return () => ctx.revert();
@@ -122,19 +173,24 @@ const Hero = () => {
                     Duathlon & Performance Coaching by Omar Zaatiti.
                 </p>
 
-                <button
-                    ref={ctaRef}
-                    style={styles.cta}
-                    className="magnetic-btn"
-                    onClick={scrollToContact}
-                >
-                    <span style={styles.ctaText}>Start Training</span>
-                    <span style={styles.ctaArrow}>→</span>
-                </button>
+                <div style={{ display: 'inline-block' }}>
+                    <button
+                        ref={(el) => {
+                            ctaRef.current = el;
+                            magneticRef.current = el;
+                        }}
+                        style={styles.cta}
+                        className="magnetic-btn"
+                        onClick={scrollToContact}
+                    >
+                        <span style={styles.ctaText}>Start Training</span>
+                        <span style={styles.ctaArrow}>→</span>
+                    </button>
+                </div>
             </div>
 
             {/* Scroll indicator */}
-            <div style={styles.scrollIndicator}>
+            <div ref={scrollIndicatorRef} style={styles.scrollIndicator}>
                 <div style={styles.scrollLine} />
                 <span style={styles.scrollText}>Scroll</span>
             </div>
@@ -249,7 +305,6 @@ const styles = {
         width: '1px',
         height: 'clamp(40px, 8vh, 60px)',
         background: 'linear-gradient(to bottom, var(--primary), transparent)',
-        animation: 'scrollPulse 2s ease-in-out infinite',
     },
     scrollText: {
         fontSize: '0.7rem',

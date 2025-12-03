@@ -9,6 +9,8 @@ const Services = () => {
     const sectionRef = useRef(null);
     const headingRef = useRef(null);
     const cardsRef = useRef([]);
+    const tiltRefs = useRef([]);
+    const iconRefs = useRef([]);
 
     const services = [
         {
@@ -71,6 +73,71 @@ const Services = () => {
                     }
                 );
             });
+
+            // 3D tilt effect on cards
+            tiltRefs.current.forEach((card) => {
+                if (!card) return;
+
+                const handleMouseMove = (e) => {
+                    const rect = card.getBoundingClientRect();
+                    const x = e.clientX - rect.left;
+                    const y = e.clientY - rect.top;
+
+                    const centerX = rect.width / 2;
+                    const centerY = rect.height / 2;
+
+                    const rotateX = ((y - centerY) / centerY) * -15;
+                    const rotateY = ((x - centerX) / centerX) * 15;
+
+                    gsap.to(card, {
+                        rotateX: rotateX,
+                        rotateY: rotateY,
+                        transformPerspective: 1000,
+                        duration: 0.5,
+                        ease: 'power2.out',
+                    });
+                };
+
+                const handleMouseLeave = () => {
+                    gsap.to(card, {
+                        rotateX: 0,
+                        rotateY: 0,
+                        duration: 0.6,
+                        ease: 'elastic.out(1, 0.3)',
+                    });
+                };
+
+                card.addEventListener('mousemove', handleMouseMove);
+                card.addEventListener('mouseleave', handleMouseLeave);
+            });
+
+            // Icon hover animations
+            iconRefs.current.forEach((icon) => {
+                if (!icon) return;
+
+                const onMouseEnter = () => {
+                    gsap.to(icon, {
+                        scale: 1.15,
+                        rotation: 8,
+                        duration: 0.6,
+                        ease: 'elastic.out(1, 0.5)',
+                        filter: 'drop-shadow(0 0 20px rgba(225, 82, 47, 0.8))',
+                    });
+                };
+
+                const onMouseLeave = () => {
+                    gsap.to(icon, {
+                        scale: 1,
+                        rotation: 0,
+                        duration: 0.6,
+                        ease: 'elastic.out(1, 0.5)',
+                        filter: 'drop-shadow(0 0 0px rgba(225, 82, 47, 0))',
+                    });
+                };
+
+                icon.addEventListener('mouseenter', onMouseEnter);
+                icon.addEventListener('mouseleave', onMouseLeave);
+            });
         }, sectionRef);
 
         return () => ctx.revert();
@@ -78,6 +145,13 @@ const Services = () => {
 
     return (
         <section ref={sectionRef} style={styles.section}>
+            {/* Gradient Mesh Background */}
+            <div style={styles.gradientMesh}>
+                <div style={styles.blob1}></div>
+                <div style={styles.blob2}></div>
+                <div style={styles.blob3}></div>
+            </div>
+
             <div className="container">
                 {/* Section Header */}
                 <div ref={headingRef} style={styles.header}>
@@ -95,14 +169,20 @@ const Services = () => {
                     {services.map((service, index) => (
                         <div
                             key={index}
-                            ref={el => cardsRef.current[index] = el}
+                            ref={el => {
+                                cardsRef.current[index] = el;
+                                tiltRefs.current[index] = el;
+                            }}
                             style={styles.card}
                             className="service-card"
                         >
                             {/* Card Header */}
                             <div style={styles.cardHeader}>
                                 <span style={styles.number}>{service.number}</span>
-                                <div style={styles.iconWrapper}>
+                                <div
+                                    ref={el => iconRefs.current[index] = el}
+                                    style={styles.iconWrapper}
+                                >
                                     {React.cloneElement(service.icon, { size: 24 })}
                                 </div>
                             </div>
@@ -174,6 +254,8 @@ const styles = {
         marginBottom: 'clamp(3rem, 8vh, 5rem)',
         maxWidth: '700px',
         margin: '0 auto clamp(3rem, 8vh, 5rem)',
+        position: 'relative',
+        zIndex: 1,
     },
     label: {
         display: 'inline-block',
@@ -206,6 +288,8 @@ const styles = {
         display: 'grid',
         gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 320px), 1fr))',
         gap: 'clamp(1rem, 3vw, 2rem)',
+        position: 'relative',
+        zIndex: 1,
     },
     card: {
         position: 'relative',
@@ -300,6 +384,49 @@ const styles = {
         opacity: 0,
         transition: 'opacity 0.3s ease',
         pointerEvents: 'none',
+    },
+    gradientMesh: {
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        width: '100%',
+        height: '100%',
+        overflow: 'hidden',
+        pointerEvents: 'none',
+        zIndex: 0,
+    },
+    blob1: {
+        position: 'absolute',
+        top: '20%',
+        left: '10%',
+        width: '600px',
+        height: '600px',
+        borderRadius: '50%',
+        background: 'radial-gradient(circle, rgba(225, 82, 47, 0.08) 0%, transparent 70%)',
+        filter: 'blur(60px)',
+        opacity: 0.7,
+    },
+    blob2: {
+        position: 'absolute',
+        top: '60%',
+        right: '10%',
+        width: '500px',
+        height: '500px',
+        borderRadius: '50%',
+        background: 'radial-gradient(circle, rgba(225, 82, 47, 0.06) 0%, transparent 70%)',
+        filter: 'blur(50px)',
+        opacity: 0.6,
+    },
+    blob3: {
+        position: 'absolute',
+        bottom: '10%',
+        left: '30%',
+        width: '400px',
+        height: '400px',
+        borderRadius: '50%',
+        background: 'radial-gradient(circle, rgba(225, 82, 47, 0.05) 0%, transparent 70%)',
+        filter: 'blur(40px)',
+        opacity: 0.5,
     },
 };
 

@@ -6,6 +6,7 @@ const CustomCursor = () => {
     const cursorDotRef = useRef(null);
     const [isHovering, setIsHovering] = useState(false);
     const [cursorText, setCursorText] = useState('');
+    const [cursorState, setCursorState] = useState('default'); // default, link, image, drag
 
     useEffect(() => {
         const cursor = cursorRef.current;
@@ -46,10 +47,42 @@ const CustomCursor = () => {
             const target = e.target;
             if (!target || !target.matches) return;
 
-            if (target.matches('a, button, [data-cursor="pointer"]')) {
+            // Check for images
+            if (target.matches('img, [data-cursor="image"]')) {
                 setIsHovering(true);
+                setCursorState('image');
                 gsap.to(cursor, {
-                    scale: 2,
+                    scale: 2.5,
+                    duration: 0.3,
+                    ease: 'power2.out',
+                });
+                gsap.to(cursorDot, {
+                    scale: 0,
+                    duration: 0.3,
+                });
+            }
+            // Check for draggable elements
+            else if (target.matches('[data-cursor="drag"]')) {
+                setIsHovering(true);
+                setCursorState('drag');
+                setCursorText('DRAG');
+                gsap.to(cursor, {
+                    scale: 3,
+                    duration: 0.3,
+                    ease: 'power2.out',
+                });
+                gsap.to(cursorDot, {
+                    scale: 0,
+                    duration: 0.3,
+                });
+            }
+            // Check for links/buttons
+            else if (target.matches('a, button, [data-cursor="pointer"]')) {
+                setIsHovering(true);
+                setCursorState('link');
+                gsap.to(cursor, {
+                    scaleX: 2.2,
+                    scaleY: 1.8,
                     duration: 0.3,
                     ease: 'power2.out',
                 });
@@ -59,16 +92,9 @@ const CustomCursor = () => {
                 });
             }
 
-            if (target.dataset.cursorText) {
+            // Check for custom text
+            if (target.dataset.cursorText && !target.matches('[data-cursor="drag"]')) {
                 setCursorText(target.dataset.cursorText);
-                gsap.to(cursor, {
-                    scale: 3,
-                    duration: 0.3,
-                });
-            }
-
-            if (target.matches('[data-cursor="drag"]')) {
-                setCursorText('DRAG');
                 gsap.to(cursor, {
                     scale: 3,
                     duration: 0.3,
@@ -80,11 +106,14 @@ const CustomCursor = () => {
             const target = e.target;
             if (!target || !target.matches) return;
 
-            if (target.matches('a, button, [data-cursor="pointer"], [data-cursor="drag"]')) {
+            if (target.matches('a, button, img, [data-cursor="pointer"], [data-cursor="drag"], [data-cursor="image"]')) {
                 setIsHovering(false);
+                setCursorState('default');
                 setCursorText('');
                 gsap.to(cursor, {
                     scale: 1,
+                    scaleX: 1,
+                    scaleY: 1,
                     duration: 0.3,
                     ease: 'power2.out',
                 });
@@ -114,10 +143,14 @@ const CustomCursor = () => {
                     ...styles.cursor,
                     backgroundColor: isHovering ? 'var(--primary)' : 'transparent',
                     borderColor: isHovering ? 'var(--primary)' : 'var(--white)',
-                    mixBlendMode: isHovering ? 'difference' : 'normal',
+                    mixBlendMode: cursorState === 'image' ? 'difference' : (isHovering ? 'normal' : 'normal'),
+                    borderRadius: cursorState === 'link' ? '20px' : '50%',
                 }}
             >
                 {cursorText && <span style={styles.cursorText}>{cursorText}</span>}
+                {cursorState === 'drag' && !cursorText && (
+                    <span style={styles.dragIndicator}>⇄</span>
+                )}
             </div>
             <div ref={cursorDotRef} style={styles.cursorDot} />
         </>
@@ -159,6 +192,13 @@ const styles = {
         textTransform: 'uppercase',
         letterSpacing: '1px',
         color: 'var(--white)',
+    },
+    dragIndicator: {
+        fontSize: '16px',
+        fontWeight: 700,
+        color: 'var(--white)',
+        transform: 'rotate(0deg)',
+        display: 'inline-block',
     },
 };
 

@@ -2,17 +2,24 @@ import React, { useEffect, useState } from 'react';
 
 const Preloader = ({ setLoading }) => {
     const [fadeOut, setFadeOut] = useState(false);
+    const logoRef = React.useRef(null);
 
     useEffect(() => {
         // Start fade out before removing
         const fadeTimer = setTimeout(() => {
             setFadeOut(true);
+
+            // Animate logo scale up
+            if (logoRef.current) {
+                logoRef.current.style.transform = 'scale(1.3)';
+                logoRef.current.style.opacity = '0';
+            }
         }, 3000);
 
         // Remove preloader after fade
         const removeTimer = setTimeout(() => {
             setLoading(false);
-        }, 3800);
+        }, 4000);
 
         return () => {
             clearTimeout(fadeTimer);
@@ -39,11 +46,14 @@ const Preloader = ({ setLoading }) => {
         <div
             style={{
                 ...styles.container,
-                opacity: fadeOut ? 0 : 1,
-                transition: 'opacity 0.8s ease-in-out',
+                clipPath: fadeOut ? 'circle(0% at 50% 50%)' : 'circle(150% at 50% 50%)',
+                transition: 'clip-path 1s cubic-bezier(0.77, 0, 0.175, 1)',
             }}
         >
-            <div style={styles.logoContainer}>
+            <div
+                ref={logoRef}
+                style={styles.logoContainer}
+            >
                 <svg
                     viewBox="0 0 2067 732"
                     style={styles.svg}
@@ -114,6 +124,9 @@ const styles = {
         width: '60%',
         maxWidth: '600px',
         height: 'auto',
+        transition: 'transform 1s cubic-bezier(0.77, 0, 0.175, 1), opacity 0.8s ease-in-out',
+        transform: 'scale(1)',
+        opacity: 1,
     },
     svg: {
         width: '100%',

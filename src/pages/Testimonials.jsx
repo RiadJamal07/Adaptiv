@@ -25,6 +25,7 @@ const Testimonials = () => {
             <Marquee gradient={false} speed={40} pauseOnHover>
                 {reviews.map((review, index) => (
                     <div key={index} style={styles.card}>
+                        <span style={styles.quoteSymbol}>"</span>
                         <p style={styles.text}>"{review.text}"</p>
                         <div style={styles.author}>
                             <h4>{review.name}</h4>
@@ -39,6 +40,7 @@ const Testimonials = () => {
             <Marquee gradient={false} speed={30} direction="right" pauseOnHover>
                 {reviews.map((review, index) => (
                     <div key={index} style={styles.card}>
+                        <span style={styles.quoteSymbol}>"</span>
                         <p style={styles.text}>"{review.text}"</p>
                         <div style={styles.author}>
                             <h4>{review.name}</h4>
@@ -53,16 +55,31 @@ const Testimonials = () => {
 
 const styles = {
     card: {
-        backgroundColor: 'var(--dark-lighter)',
+        position: 'relative',
+        background: 'rgba(20, 20, 20, 0.6)',
+        backdropFilter: 'blur(20px)',
+        WebkitBackdropFilter: 'blur(20px)',
         padding: 'clamp(1.25rem, 3vw, 2rem)',
         borderRadius: '15px',
-        border: '1px solid rgba(255,255,255,0.1)',
+        border: '1px solid rgba(255, 255, 255, 0.08)',
         width: 'clamp(280px, 80vw, 350px)',
         margin: '0 clamp(0.75rem, 2vw, 1.5rem)',
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'space-between',
         minHeight: 'clamp(180px, 25vw, 200px)',
+    },
+    quoteSymbol: {
+        position: 'absolute',
+        top: '0.5rem',
+        left: '0.75rem',
+        fontSize: '3rem',
+        fontFamily: 'Georgia, serif',
+        color: 'var(--primary)',
+        opacity: 0.25,
+        lineHeight: 1,
+        pointerEvents: 'none',
+        fontWeight: 'bold',
     },
     text: {
         fontStyle: 'italic',
