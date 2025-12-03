@@ -48,19 +48,28 @@ const Services = () => {
                 },
             });
 
-            // Cards stagger animation
+            // Cards stagger animation with clip-path reveal
             cardsRef.current.forEach((card, i) => {
-                gsap.from(card, {
-                    opacity: 0,
-                    y: 80,
-                    duration: 0.8,
-                    ease: 'power3.out',
-                    scrollTrigger: {
-                        trigger: card,
-                        start: 'top 85%',
+                if (!card) return;
+                gsap.fromTo(card,
+                    {
+                        clipPath: 'inset(0 0 100% 0)',
+                        opacity: 0,
+                        y: 40,
                     },
-                    delay: i * 0.15,
-                });
+                    {
+                        clipPath: 'inset(0 0 0% 0)',
+                        opacity: 1,
+                        y: 0,
+                        duration: 1,
+                        ease: 'power3.out',
+                        scrollTrigger: {
+                            trigger: card,
+                            start: 'top 85%',
+                        },
+                        delay: i * 0.15,
+                    }
+                );
             });
         }, sectionRef);
 

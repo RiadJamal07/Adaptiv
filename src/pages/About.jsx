@@ -11,6 +11,7 @@ const About = () => {
     const textRefs = useRef([]);
     const imageRef = useRef(null);
     const imageRevealRef = useRef(null);
+    const statRefs = useRef([]);
 
     useEffect(() => {
         const ctx = gsap.context(() => {
@@ -35,20 +36,27 @@ const About = () => {
                 },
             });
 
-            // Text paragraphs animation
+            // Text paragraphs animation with clip-path reveal
             textRefs.current.forEach((text, i) => {
-                gsap.from(text, {
-                    opacity: 0,
-                    y: 40,
-                    duration: 0.8,
-                    ease: 'power3.out',
-                    scrollTrigger: {
-                        trigger: text,
-                        start: 'top 85%',
-                        toggleActions: 'play none none reverse',
+                if (!text) return;
+                gsap.fromTo(text,
+                    {
+                        clipPath: 'inset(0 0 100% 0)',
+                        opacity: 0,
                     },
-                    delay: i * 0.1,
-                });
+                    {
+                        clipPath: 'inset(0 0 0% 0)',
+                        opacity: 1,
+                        duration: 1,
+                        ease: 'power3.out',
+                        scrollTrigger: {
+                            trigger: text,
+                            start: 'top 85%',
+                            toggleActions: 'play none none reverse',
+                        },
+                        delay: i * 0.12,
+                    }
+                );
             });
 
             // Image reveal with clip-path
@@ -77,6 +85,30 @@ const About = () => {
                     end: 'bottom top',
                     scrub: true,
                 },
+            });
+
+            // Animated stat counters
+            statRefs.current.forEach((stat) => {
+                if (!stat) return;
+                const target = parseInt(stat.dataset.value);
+                const suffix = stat.dataset.suffix || '';
+
+                gsap.fromTo(stat,
+                    { innerText: 0 },
+                    {
+                        innerText: target,
+                        duration: 2,
+                        ease: 'power2.out',
+                        snap: { innerText: 1 },
+                        scrollTrigger: {
+                            trigger: stat,
+                            start: 'top 85%',
+                        },
+                        onUpdate: function() {
+                            stat.innerText = Math.round(this.targets()[0].innerText) + suffix;
+                        }
+                    }
+                );
             });
         }, sectionRef);
 
@@ -109,15 +141,30 @@ const About = () => {
 
                         <div ref={el => textRefs.current[3] = el} style={styles.stats}>
                             <div style={styles.stat}>
-                                <span style={styles.statNumber}>10+</span>
+                                <span
+                                    ref={el => statRefs.current[0] = el}
+                                    data-value="10"
+                                    data-suffix="+"
+                                    style={styles.statNumber}
+                                >0+</span>
                                 <span style={styles.statLabel}>Years Experience</span>
                             </div>
                             <div style={styles.stat}>
-                                <span style={styles.statNumber}>500+</span>
+                                <span
+                                    ref={el => statRefs.current[1] = el}
+                                    data-value="500"
+                                    data-suffix="+"
+                                    style={styles.statNumber}
+                                >0+</span>
                                 <span style={styles.statLabel}>Athletes Coached</span>
                             </div>
                             <div style={styles.stat}>
-                                <span style={styles.statNumber}>50+</span>
+                                <span
+                                    ref={el => statRefs.current[2] = el}
+                                    data-value="50"
+                                    data-suffix="+"
+                                    style={styles.statNumber}
+                                >0+</span>
                                 <span style={styles.statLabel}>Race Wins</span>
                             </div>
                         </div>

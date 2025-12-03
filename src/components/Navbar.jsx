@@ -59,6 +59,7 @@ const MagneticLink = ({ children, href, onClick }) => {
 const Navbar = () => {
     const [isOpen, setIsOpen] = useState(false);
     const [scrolled, setScrolled] = useState(false);
+    const [scrollProgress, setScrollProgress] = useState(0);
     const navRef = useRef(null);
 
     const toggleMenu = () => setIsOpen(!isOpen);
@@ -75,6 +76,11 @@ const Navbar = () => {
     useEffect(() => {
         const handleScroll = () => {
             setScrolled(window.scrollY > 50);
+
+            // Calculate scroll progress
+            const scrollHeight = document.documentElement.scrollHeight - window.innerHeight;
+            const progress = scrollHeight > 0 ? (window.scrollY / scrollHeight) * 100 : 0;
+            setScrollProgress(progress);
         };
 
         window.addEventListener('scroll', handleScroll);
@@ -172,6 +178,14 @@ const Navbar = () => {
                     )}
                 </AnimatePresence>
             </div>
+
+            {/* Scroll Progress Bar */}
+            <div
+                style={{
+                    ...styles.progressBar,
+                    transform: `scaleX(${scrollProgress / 100})`,
+                }}
+            />
         </motion.nav>
     );
 };
@@ -268,6 +282,16 @@ const styles = {
         fontSize: '0.9rem',
         color: 'var(--primary)',
         fontWeight: 400,
+    },
+    progressBar: {
+        position: 'absolute',
+        bottom: 0,
+        left: 0,
+        width: '100%',
+        height: '2px',
+        background: 'linear-gradient(90deg, var(--primary) 0%, #FF7A5C 100%)',
+        transformOrigin: 'left',
+        transition: 'transform 0.1s linear',
     },
 };
 

@@ -13,6 +13,7 @@ import HyperplexedCarousel from './components/HyperplexedCarousel';
 import QuoteInterstitial from './components/QuoteInterstitial';
 import CustomCursor from './components/CustomCursor';
 import SmoothScroll from './components/SmoothScroll';
+import FilmGrain from './components/FilmGrain';
 import heroVideo from './assets/hero-video.mp4';
 
 gsap.registerPlugin(ScrollTrigger);
@@ -37,6 +38,7 @@ function App() {
 
   return (
     <SmoothScroll>
+      <FilmGrain />
       <CustomCursor />
       {loading && <Preloader setLoading={setLoading} />}
 
