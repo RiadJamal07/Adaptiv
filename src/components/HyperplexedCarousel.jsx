@@ -40,8 +40,8 @@ const HyperplexedCarousel = () => {
                 return track.scrollWidth - window.innerWidth;
             };
 
-            // Horizontal scroll animation
-            gsap.to(track, {
+            // Horizontal scroll animation (main container animation)
+            const horizontalScroll = gsap.to(track, {
                 x: () => -getScrollDistance(),
                 ease: 'none',
                 scrollTrigger: {
@@ -55,11 +55,11 @@ const HyperplexedCarousel = () => {
                 },
             });
 
-            // Parallax effect on images
-            imageElements.forEach((img) => {
-                if (!img) return;
-                gsap.to(img, {
-                    objectPosition: '0% center',
+            // Background gradient parallax
+            const bgGradient = containerRef.current.querySelector('[data-bg-gradient]');
+            if (bgGradient) {
+                gsap.to(bgGradient, {
+                    x: () => -getScrollDistance() * 0.3,
                     ease: 'none',
                     scrollTrigger: {
                         trigger: containerRef.current,
@@ -69,6 +69,69 @@ const HyperplexedCarousel = () => {
                         invalidateOnRefresh: true,
                     },
                 });
+            }
+
+            // Enhanced parallax + clip-path reveals on images
+            imageElements.forEach((img, index) => {
+                if (!img) return;
+
+                const wrapper = img.parentElement;
+
+                // Alternating parallax speeds for depth
+                const parallaxMultiplier = index % 2 === 0 ? 0.8 : 1.2;
+
+                // Parallax effect on object position
+                gsap.to(img, {
+                    objectPosition: `${(100 - (100 * parallaxMultiplier))}% center`,
+                    ease: 'none',
+                    scrollTrigger: {
+                        trigger: containerRef.current,
+                        start: 'top top',
+                        end: () => `+=${getScrollDistance()}`,
+                        scrub: 1,
+                        invalidateOnRefresh: true,
+                    },
+                });
+
+                // Clip-path reveal animation synced with horizontal scroll
+                gsap.fromTo(
+                    wrapper,
+                    {
+                        clipPath: 'inset(0 100% 0 0)',
+                    },
+                    {
+                        clipPath: 'inset(0 0% 0 0)',
+                        ease: 'power2.out',
+                        scrollTrigger: {
+                            trigger: wrapper,
+                            containerAnimation: horizontalScroll,
+                            start: 'left right',
+                            end: 'left center',
+                            scrub: 1,
+                            invalidateOnRefresh: true,
+                        },
+                    }
+                );
+
+                // Scale effect on image during reveal
+                gsap.fromTo(
+                    img,
+                    {
+                        scale: 1.2,
+                    },
+                    {
+                        scale: 1,
+                        ease: 'power2.out',
+                        scrollTrigger: {
+                            trigger: wrapper,
+                            containerAnimation: horizontalScroll,
+                            start: 'left right',
+                            end: 'left center',
+                            scrub: 1,
+                            invalidateOnRefresh: true,
+                        },
+                    }
+                );
             });
 
         }, containerRef);
@@ -79,7 +142,7 @@ const HyperplexedCarousel = () => {
     return (
         <div ref={containerRef} style={styles.container}>
             {/* Background gradient */}
-            <div style={styles.bgGradient} />
+            <div data-bg-gradient style={styles.bgGradient} />
 
             {/* Section heading */}
             <div ref={headingRef} style={styles.headingWrapper}>

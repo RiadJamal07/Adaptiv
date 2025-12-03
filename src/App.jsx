@@ -14,6 +14,7 @@ import QuoteInterstitial from './components/QuoteInterstitial';
 import CustomCursor from './components/CustomCursor';
 import SmoothScroll from './components/SmoothScroll';
 import FilmGrain from './components/FilmGrain';
+import LiquidGradient from './components/LiquidGradient';
 import heroVideo from './assets/hero-video.mp4';
 
 gsap.registerPlugin(ScrollTrigger);
@@ -38,6 +39,7 @@ function App() {
 
   return (
     <SmoothScroll>
+      <LiquidGradient />
       <FilmGrain />
       <CustomCursor />
       {loading && <Preloader setLoading={setLoading} />}
