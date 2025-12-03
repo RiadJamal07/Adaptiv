@@ -3,8 +3,6 @@ import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { FaCheck, FaArrowRight } from 'react-icons/fa';
 
-gsap.registerPlugin(ScrollTrigger);
-
 const Packages = () => {
     const sectionRef = useRef(null);
     const headingRef = useRef(null);
@@ -62,7 +60,7 @@ const Packages = () => {
             gsap.from(headingRef.current, {
                 opacity: 0,
                 y: 60,
-                duration: 1,
+                duration: 0.6,
                 ease: 'power3.out',
                 scrollTrigger: {
                     trigger: headingRef.current,
@@ -75,13 +73,13 @@ const Packages = () => {
                     opacity: 0,
                     y: 100,
                     scale: 0.95,
-                    duration: 0.8,
+                    duration: 0.5,
                     ease: 'power3.out',
                     scrollTrigger: {
                         trigger: card,
                         start: 'top 85%',
                     },
-                    delay: i * 0.1,
+                    delay: i * 0.06,
                 });
             });
         }, sectionRef);
@@ -211,7 +209,7 @@ const styles = {
         transform: 'translate(-50%, -50%)',
         width: '800px',
         height: '800px',
-        background: 'radial-gradient(circle, rgba(225, 82, 47, 0.08) 0%, transparent 70%)',
+        background: 'radial-gradient(circle, rgba(255, 255, 255, 0.03) 0%, transparent 70%)',
         pointerEvents: 'none',
     },
     header: {
@@ -234,7 +232,7 @@ const styles = {
         fontWeight: 800,
         textTransform: 'uppercase',
         letterSpacing: '-0.02em',
-        lineHeight: 1,
+        lineHeight: 1.1,
         marginBottom: '1.5rem',
     },
     headingAccent: {
@@ -242,7 +240,7 @@ const styles = {
     },
     subheading: {
         fontSize: '1.1rem',
-        color: 'rgba(255,255,255,0.6)',
+        color: 'rgba(255,255,255,0.85)',
         maxWidth: '500px',
         margin: '0 auto',
     },
@@ -256,7 +254,7 @@ const styles = {
     },
     card: {
         background: 'rgba(255,255,255,0.03)',
-        borderRadius: '24px',
+        borderRadius: '20px',
         padding: 'clamp(2rem, 4vw, 2.5rem)',
         border: '1px solid rgba(255,255,255,0.08)',
         display: 'flex',
@@ -264,18 +262,18 @@ const styles = {
         position: 'relative',
     },
     popularCard: {
-        background: 'linear-gradient(135deg, rgba(225, 82, 47, 0.1) 0%, rgba(255,255,255,0.05) 100%)',
-        border: '1px solid rgba(225, 82, 47, 0.3)',
-        boxShadow: '0 0 60px -20px rgba(225, 82, 47, 0.4)',
+        background: 'linear-gradient(135deg, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0.03) 100%)',
+        border: '1px solid rgba(255,255,255,0.2)',
+        boxShadow: '0 0 60px -20px rgba(255,255,255,0.1)',
     },
     badge: {
         position: 'absolute',
         top: '-1px',
         left: '50%',
         transform: 'translateX(-50%)',
-        background: 'linear-gradient(135deg, var(--primary) 0%, #ff6b4a 100%)',
+        background: 'var(--primary)',
         padding: '0.5rem 1.5rem',
-        borderRadius: '0 0 12px 12px',
+        borderRadius: '0 0 16px 16px',
         fontSize: '0.75rem',
         fontWeight: 700,
         textTransform: 'uppercase',
@@ -315,7 +313,7 @@ const styles = {
         fontSize: 'clamp(3rem, 8vw, 4rem)',
         fontWeight: 900,
         color: 'var(--white)',
-        lineHeight: 1,
+        lineHeight: 1.1,
         letterSpacing: '-0.03em',
     },
     period: {
@@ -343,7 +341,7 @@ const styles = {
         width: '20px',
         height: '20px',
         borderRadius: '50%',
-        background: 'rgba(225, 82, 47, 0.2)',
+        background: 'rgba(255,255,255,0.15)',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
@@ -363,12 +361,12 @@ const styles = {
         background: 'transparent',
         color: 'var(--white)',
         border: '2px solid rgba(255,255,255,0.2)',
-        borderRadius: '12px',
+        borderRadius: '16px',
         cursor: 'pointer',
         marginTop: 'auto',
     },
     popularButton: {
-        background: 'linear-gradient(135deg, var(--primary) 0%, #ff6b4a 100%)',
+        background: 'var(--primary)',
         border: 'none',
     },
     note: {

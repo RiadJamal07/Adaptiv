@@ -1,46 +1,15 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { gsap } from 'gsap';
 import { FaBars, FaTimes } from 'react-icons/fa';
 import logo from '../assets/adaptiv-logo.svg';
+import useMagneticEffect from '../hooks/useMagneticEffect';
 
 const MagneticLink = ({ children, href, onClick }) => {
-    const linkRef = useRef(null);
-
-    useEffect(() => {
-        const link = linkRef.current;
-        if (!link) return;
-
-        const handleMouseMove = (e) => {
-            const rect = link.getBoundingClientRect();
-            const x = e.clientX - rect.left - rect.width / 2;
-            const y = e.clientY - rect.top - rect.height / 2;
-
-            gsap.to(link, {
-                x: x * 0.3,
-                y: y * 0.3,
-                duration: 0.3,
-                ease: 'power2.out',
-            });
-        };
-
-        const handleMouseLeave = () => {
-            gsap.to(link, {
-                x: 0,
-                y: 0,
-                duration: 0.5,
-                ease: 'elastic.out(1, 0.3)',
-            });
-        };
-
-        link.addEventListener('mousemove', handleMouseMove);
-        link.addEventListener('mouseleave', handleMouseLeave);
-
-        return () => {
-            link.removeEventListener('mousemove', handleMouseMove);
-            link.removeEventListener('mouseleave', handleMouseLeave);
-        };
-    }, []);
+    const { ref: linkRef } = useMagneticEffect({
+        strength: 0.3,
+        moveDuration: 0.2,
+        returnDuration: 0.3,
+    });
 
     return (
         <a
@@ -113,7 +82,7 @@ const Navbar = () => {
             }}
             initial={{ y: -100 }}
             animate={{ y: 0 }}
-            transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+            transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
         >
             <div className="container" style={styles.container}>
                 <motion.a
@@ -157,7 +126,7 @@ const Navbar = () => {
                             initial={{ opacity: 0, clipPath: 'inset(0 0 100% 0)' }}
                             animate={{ opacity: 1, clipPath: 'inset(0 0 0% 0)' }}
                             exit={{ opacity: 0, clipPath: 'inset(0 0 100% 0)' }}
-                            transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+                            transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
                             style={styles.mobileMenu}
                         >
                             {links.map((link, i) => (
@@ -168,7 +137,7 @@ const Navbar = () => {
                                     style={styles.mobileLink}
                                     initial={{ opacity: 0, x: -20 }}
                                     animate={{ opacity: 1, x: 0 }}
-                                    transition={{ delay: i * 0.1, duration: 0.3 }}
+                                    transition={{ delay: i * 0.06, duration: 0.2 }}
                                 >
                                     <span style={styles.mobileLinkNumber}>0{i + 1}</span>
                                     {link.name}
@@ -289,7 +258,7 @@ const styles = {
         left: 0,
         width: '100%',
         height: '2px',
-        background: 'linear-gradient(90deg, var(--primary) 0%, #FF7A5C 100%)',
+        background: 'rgba(255,255,255,0.3)',
         transformOrigin: 'left',
         transition: 'transform 0.1s linear',
     },

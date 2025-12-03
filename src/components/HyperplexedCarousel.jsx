@@ -8,8 +8,6 @@ import img3 from '../assets/3.jpg';
 import img4 from '../assets/4.jpg';
 import img5 from '../assets/5.jpg';
 
-gsap.registerPlugin(ScrollTrigger);
-
 const HyperplexedCarousel = () => {
     const containerRef = useRef(null);
     const trackRef = useRef(null);
@@ -27,7 +25,7 @@ const HyperplexedCarousel = () => {
             gsap.from(headingRef.current, {
                 opacity: 0,
                 y: 60,
-                duration: 1,
+                duration: 0.6,
                 ease: 'power3.out',
                 scrollTrigger: {
                     trigger: containerRef.current,
@@ -201,7 +199,7 @@ const styles = {
         left: 0,
         width: '100%',
         height: '100%',
-        background: 'radial-gradient(ellipse at 20% 50%, rgba(225, 82, 47, 0.1) 0%, transparent 50%)',
+        background: 'radial-gradient(ellipse at 20% 50%, rgba(255, 255, 255, 0.03) 0%, transparent 50%)',
         pointerEvents: 'none',
     },
     headingWrapper: {
@@ -224,7 +222,7 @@ const styles = {
         fontWeight: 800,
         textTransform: 'uppercase',
         letterSpacing: '-0.02em',
-        lineHeight: 1,
+        lineHeight: 1.1,
         margin: 0,
     },
     headingAccent: {
@@ -268,7 +266,7 @@ const styles = {
         fontSize: 'clamp(2rem, 6vmin, 5rem)',
         fontWeight: 900,
         color: 'rgba(255,255,255,0.1)',
-        lineHeight: 1,
+        lineHeight: 1.1,
         letterSpacing: '-0.05em',
     },
     instruction: {
@@ -285,7 +283,7 @@ const styles = {
     scrollLine: {
         width: '1px',
         height: '40px',
-        background: 'linear-gradient(to bottom, var(--primary), transparent)',
+        background: 'linear-gradient(to bottom, rgba(255,255,255,0.3), transparent)',
         animation: 'scrollPulse 2s ease-in-out infinite',
     },
     scrollText: {

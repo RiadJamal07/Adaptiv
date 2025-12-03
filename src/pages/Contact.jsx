@@ -3,8 +3,6 @@ import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { FaInstagram, FaWhatsapp, FaEnvelope, FaArrowRight, FaMapMarkerAlt } from 'react-icons/fa';
 
-gsap.registerPlugin(ScrollTrigger);
-
 const Contact = () => {
     const sectionRef = useRef(null);
     const headingRef = useRef(null);
@@ -40,7 +38,7 @@ const Contact = () => {
             gsap.from(headingRef.current, {
                 opacity: 0,
                 y: 60,
-                duration: 1,
+                duration: 0.6,
                 ease: 'power3.out',
                 scrollTrigger: {
                     trigger: headingRef.current,
@@ -51,26 +49,26 @@ const Contact = () => {
             gsap.from(contentRef.current, {
                 opacity: 0,
                 y: 40,
-                duration: 0.8,
+                duration: 0.5,
                 ease: 'power3.out',
                 scrollTrigger: {
                     trigger: contentRef.current,
                     start: 'top 85%',
                 },
-                delay: 0.2,
+                delay: 0.1,
             });
 
             cardsRef.current.forEach((card, i) => {
                 gsap.from(card, {
                     opacity: 0,
                     x: -30,
-                    duration: 0.6,
+                    duration: 0.4,
                     ease: 'power3.out',
                     scrollTrigger: {
                         trigger: card,
                         start: 'top 90%',
                     },
-                    delay: i * 0.1,
+                    delay: i * 0.06,
                 });
             });
         }, sectionRef);
@@ -195,7 +193,7 @@ const Contact = () => {
                     }
                     .cta-button:hover {
                         transform: translateY(-2px);
-                        box-shadow: 0 10px 30px -10px rgba(225, 82, 47, 0.5);
+                        box-shadow: 0 10px 30px -10px rgba(255, 255, 255, 0.2);
                     }
                 }
                 .cta-button {
@@ -227,7 +225,7 @@ const styles = {
         right: 0,
         width: '60%',
         height: '100%',
-        background: 'radial-gradient(ellipse at 100% 0%, rgba(225, 82, 47, 0.1) 0%, transparent 60%)',
+        background: 'radial-gradient(ellipse at 100% 0%, rgba(255, 255, 255, 0.03) 0%, transparent 60%)',
         pointerEvents: 'none',
     },
     gridPattern: {
@@ -267,7 +265,7 @@ const styles = {
         fontWeight: 800,
         textTransform: 'uppercase',
         letterSpacing: '-0.02em',
-        lineHeight: 1,
+        lineHeight: 1.1,
         marginBottom: '1.5rem',
     },
     headingAccent: {
@@ -275,7 +273,7 @@ const styles = {
     },
     description: {
         fontSize: '1.1rem',
-        color: 'rgba(255,255,255,0.6)',
+        color: 'rgba(255,255,255,0.85)',
         lineHeight: 1.7,
         maxWidth: '500px',
         marginBottom: '1.5rem',
@@ -314,7 +312,7 @@ const styles = {
     iconWrapper: {
         width: '50px',
         height: '50px',
-        borderRadius: '12px',
+        borderRadius: '16px',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
@@ -350,10 +348,10 @@ const styles = {
     },
     ctaBox: {
         position: 'relative',
-        background: 'linear-gradient(135deg, rgba(225, 82, 47, 0.15) 0%, rgba(255,255,255,0.05) 100%)',
-        borderRadius: '24px',
+        background: 'linear-gradient(135deg, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0.03) 100%)',
+        borderRadius: '20px',
         padding: 'clamp(2rem, 5vw, 3rem)',
-        border: '1px solid rgba(225, 82, 47, 0.2)',
+        border: '1px solid rgba(255,255,255,0.15)',
         overflow: 'hidden',
         maxWidth: '450px',
         width: '100%',
@@ -379,7 +377,7 @@ const styles = {
     },
     ctaText: {
         fontSize: '0.95rem',
-        color: 'rgba(255,255,255,0.7)',
+        color: 'rgba(255,255,255,0.85)',
         lineHeight: 1.7,
         marginBottom: '2rem',
     },
@@ -388,9 +386,9 @@ const styles = {
         alignItems: 'center',
         gap: '0.75rem',
         padding: '1rem 2rem',
-        background: 'linear-gradient(135deg, var(--primary) 0%, #ff6b4a 100%)',
+        background: 'var(--primary)',
         color: 'white',
-        borderRadius: '12px',
+        borderRadius: '16px',
         fontSize: '0.95rem',
         fontWeight: 700,
         textTransform: 'uppercase',
@@ -403,7 +401,7 @@ const styles = {
         right: '-30%',
         width: '300px',
         height: '300px',
-        background: 'radial-gradient(circle, rgba(225, 82, 47, 0.3) 0%, transparent 70%)',
+        background: 'radial-gradient(circle, rgba(255, 255, 255, 0.05) 0%, transparent 70%)',
         borderRadius: '50%',
         pointerEvents: 'none',
     },
@@ -413,7 +411,7 @@ const styles = {
         left: '-20%',
         width: '200px',
         height: '200px',
-        background: 'radial-gradient(circle, rgba(225, 82, 47, 0.2) 0%, transparent 70%)',
+        background: 'radial-gradient(circle, rgba(255, 255, 255, 0.03) 0%, transparent 70%)',
         borderRadius: '50%',
         pointerEvents: 'none',
     },

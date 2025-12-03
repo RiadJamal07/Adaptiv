@@ -67,8 +67,8 @@ const LiquidGradient = () => {
           width: '40vw',
           height: '40vw',
           background: 'radial-gradient(circle, var(--primary, #E1522F) 0%, transparent 70%)',
-          filter: 'blur(90px)',
-          opacity: 0.1,
+          filter: 'blur(50px)',
+          opacity: 0.05,
           mixBlendMode: 'soft-light',
           willChange: 'transform',
         }}
@@ -84,8 +84,8 @@ const LiquidGradient = () => {
           width: '45vw',
           height: '45vw',
           background: 'radial-gradient(circle, var(--primary, #E1522F) 0%, transparent 70%)',
-          filter: 'blur(100px)',
-          opacity: 0.08,
+          filter: 'blur(55px)',
+          opacity: 0.04,
           mixBlendMode: 'screen',
           willChange: 'transform',
         }}
@@ -102,8 +102,8 @@ const LiquidGradient = () => {
           width: '38vw',
           height: '38vw',
           background: 'radial-gradient(circle, var(--primary, #E1522F) 0%, transparent 70%)',
-          filter: 'blur(85px)',
-          opacity: 0.09,
+          filter: 'blur(45px)',
+          opacity: 0.04,
           mixBlendMode: 'soft-light',
           willChange: 'transform',
         }}

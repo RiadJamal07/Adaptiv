@@ -2,14 +2,13 @@ import React, { useRef, useEffect } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { FaRunning, FaHeartbeat, FaChild, FaArrowRight } from 'react-icons/fa';
+import TiltCard from './TiltCard';
 
-gsap.registerPlugin(ScrollTrigger);
 
 const Services = () => {
     const sectionRef = useRef(null);
     const headingRef = useRef(null);
     const cardsRef = useRef([]);
-    const tiltRefs = useRef([]);
     const iconRefs = useRef([]);
 
     const services = [
@@ -42,7 +41,7 @@ const Services = () => {
             gsap.from(headingRef.current, {
                 opacity: 0,
                 y: 60,
-                duration: 1,
+                duration: 0.6,
                 ease: 'power3.out',
                 scrollTrigger: {
                     trigger: headingRef.current,
@@ -63,53 +62,17 @@ const Services = () => {
                         clipPath: 'inset(0 0 0% 0)',
                         opacity: 1,
                         y: 0,
-                        duration: 1,
+                        duration: 0.6,
                         ease: 'power3.out',
                         scrollTrigger: {
                             trigger: card,
                             start: 'top 85%',
                         },
-                        delay: i * 0.15,
+                        delay: i * 0.09,
                     }
                 );
             });
 
-            // 3D tilt effect on cards
-            tiltRefs.current.forEach((card) => {
-                if (!card) return;
-
-                const handleMouseMove = (e) => {
-                    const rect = card.getBoundingClientRect();
-                    const x = e.clientX - rect.left;
-                    const y = e.clientY - rect.top;
-
-                    const centerX = rect.width / 2;
-                    const centerY = rect.height / 2;
-
-                    const rotateX = ((y - centerY) / centerY) * -15;
-                    const rotateY = ((x - centerX) / centerX) * 15;
-
-                    gsap.to(card, {
-                        rotateX: rotateX,
-                        rotateY: rotateY,
-                        transformPerspective: 1000,
-                        duration: 0.5,
-                        ease: 'power2.out',
-                    });
-                };
-
-                const handleMouseLeave = () => {
-                    gsap.to(card, {
-                        rotateX: 0,
-                        rotateY: 0,
-                        duration: 0.6,
-                        ease: 'elastic.out(1, 0.3)',
-                    });
-                };
-
-                card.addEventListener('mousemove', handleMouseMove);
-                card.addEventListener('mouseleave', handleMouseLeave);
-            });
 
             // Icon hover animations
             iconRefs.current.forEach((icon) => {
@@ -119,9 +82,9 @@ const Services = () => {
                     gsap.to(icon, {
                         scale: 1.15,
                         rotation: 8,
-                        duration: 0.6,
+                        duration: 0.4,
                         ease: 'elastic.out(1, 0.5)',
-                        filter: 'drop-shadow(0 0 20px rgba(225, 82, 47, 0.8))',
+                        filter: 'drop-shadow(0 0 20px rgba(255, 255, 255, 0.5))',
                     });
                 };
 
@@ -129,9 +92,9 @@ const Services = () => {
                     gsap.to(icon, {
                         scale: 1,
                         rotation: 0,
-                        duration: 0.6,
+                        duration: 0.4,
                         ease: 'elastic.out(1, 0.5)',
-                        filter: 'drop-shadow(0 0 0px rgba(225, 82, 47, 0))',
+                        filter: 'drop-shadow(0 0 0px rgba(255, 255, 255, 0))',
                     });
                 };
 
@@ -167,12 +130,9 @@ const Services = () => {
                 {/* Services Grid */}
                 <div style={styles.grid}>
                     {services.map((service, index) => (
-                        <div
+                        <TiltCard
                             key={index}
-                            ref={el => {
-                                cardsRef.current[index] = el;
-                                tiltRefs.current[index] = el;
-                            }}
+                            ref={el => cardsRef.current[index] = el}
                             style={styles.card}
                             className="service-card"
                         >
@@ -209,7 +169,7 @@ const Services = () => {
 
                             {/* Hover Border */}
                             <div style={styles.hoverBorder} className="hover-border" />
-                        </div>
+                        </TiltCard>
                     ))}
                 </div>
             </div>
@@ -223,7 +183,7 @@ const Services = () => {
                 @media (pointer: fine) {
                     .service-card:hover {
                         transform: translateY(-10px);
-                        box-shadow: 0 30px 60px -20px rgba(225, 82, 47, 0.3);
+                        box-shadow: 0 30px 60px -20px rgba(255, 255, 255, 0.1);
                     }
                     .service-card:hover .hover-border {
                         opacity: 1;
@@ -271,7 +231,7 @@ const styles = {
         fontWeight: 800,
         textTransform: 'uppercase',
         letterSpacing: '-0.02em',
-        lineHeight: 1,
+        lineHeight: 1.1,
         marginBottom: '1.5rem',
     },
     headingAccent: {
@@ -279,7 +239,7 @@ const styles = {
     },
     subheading: {
         fontSize: '1.1rem',
-        color: 'rgba(255,255,255,0.6)',
+        color: 'rgba(255,255,255,0.85)',
         maxWidth: '500px',
         margin: '0 auto',
         lineHeight: 1.7,
@@ -310,14 +270,14 @@ const styles = {
         fontSize: '4rem',
         fontWeight: 900,
         color: 'rgba(255,255,255,0.03)',
-        lineHeight: 1,
+        lineHeight: 1.1,
         letterSpacing: '-0.05em',
     },
     iconWrapper: {
         width: '56px',
         height: '56px',
         borderRadius: '16px',
-        background: 'linear-gradient(135deg, var(--primary) 0%, #ff6b4a 100%)',
+        background: 'rgba(255,255,255,0.1)',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
@@ -331,7 +291,7 @@ const styles = {
     },
     cardDescription: {
         fontSize: '0.95rem',
-        color: 'rgba(255,255,255,0.6)',
+        color: 'rgba(255,255,255,0.85)',
         lineHeight: 1.7,
         marginBottom: '1.5rem',
     },
@@ -354,7 +314,7 @@ const styles = {
         width: '6px',
         height: '6px',
         borderRadius: '50%',
-        backgroundColor: 'var(--primary)',
+        backgroundColor: 'rgba(255,255,255,0.5)',
         flexShrink: 0,
     },
     cardFooter: {
@@ -380,7 +340,7 @@ const styles = {
         position: 'absolute',
         inset: 0,
         borderRadius: '20px',
-        border: '2px solid var(--primary)',
+        border: '2px solid rgba(255,255,255,0.3)',
         opacity: 0,
         transition: 'opacity 0.3s ease',
         pointerEvents: 'none',
@@ -402,7 +362,7 @@ const styles = {
         width: '600px',
         height: '600px',
         borderRadius: '50%',
-        background: 'radial-gradient(circle, rgba(225, 82, 47, 0.08) 0%, transparent 70%)',
+        background: 'radial-gradient(circle, rgba(255, 255, 255, 0.03) 0%, transparent 70%)',
         filter: 'blur(60px)',
         opacity: 0.7,
     },
@@ -413,7 +373,7 @@ const styles = {
         width: '500px',
         height: '500px',
         borderRadius: '50%',
-        background: 'radial-gradient(circle, rgba(225, 82, 47, 0.06) 0%, transparent 70%)',
+        background: 'radial-gradient(circle, rgba(255, 255, 255, 0.02) 0%, transparent 70%)',
         filter: 'blur(50px)',
         opacity: 0.6,
     },
@@ -424,7 +384,7 @@ const styles = {
         width: '400px',
         height: '400px',
         borderRadius: '50%',
-        background: 'radial-gradient(circle, rgba(225, 82, 47, 0.05) 0%, transparent 70%)',
+        background: 'radial-gradient(circle, rgba(255, 255, 255, 0.02) 0%, transparent 70%)',
         filter: 'blur(40px)',
         opacity: 0.5,
     },

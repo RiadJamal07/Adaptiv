@@ -2,8 +2,9 @@ import React, { useRef, useEffect, useState } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import heroVideo from '../assets/hero-video.mp4';
+import useMagneticEffect from '../hooks/useMagneticEffect';
 
-gsap.registerPlugin(ScrollTrigger);
+
 
 const Hero = () => {
     const containerRef = useRef(null);
@@ -13,7 +14,14 @@ const Hero = () => {
     const videoRef = useRef(null);
     const scrollIndicatorRef = useRef(null);
     const [videoLoaded, setVideoLoaded] = useState(false);
-    const magneticRef = useRef(null);
+
+    const { ref: magneticRef } = useMagneticEffect({
+        strength: 0.3,
+        pullRadius: 80,
+        moveDuration: 0.4,
+        returnDuration: 0.6,
+        listenOnParent: true,
+    });
 
     useEffect(() => {
         const ctx = gsap.context(() => {
@@ -31,28 +39,28 @@ const Hero = () => {
                 y: 0,
                 opacity: 1,
                 rotateX: 0,
-                duration: 1.2,
-                stagger: 0.08,
+                duration: 0.7,
+                stagger: 0.05,
                 ease: 'power4.out',
-                delay: 0.5,
+                delay: 0.3,
             });
 
             // Subtitle animation
             gsap.from(subtitleRef.current, {
                 y: 40,
                 opacity: 0,
-                duration: 1,
+                duration: 0.6,
                 ease: 'power3.out',
-                delay: 1.2,
+                delay: 0.7,
             });
 
             // CTA button animation
             gsap.from(ctaRef.current, {
                 y: 30,
                 opacity: 0,
-                duration: 0.8,
+                duration: 0.5,
                 ease: 'power3.out',
-                delay: 1.5,
+                delay: 0.9,
             });
 
             // Parallax on scroll
@@ -67,49 +75,14 @@ const Hero = () => {
                 },
             });
 
-            // Magnetic CTA button effect
-            const magneticBtn = magneticRef.current;
-            if (magneticBtn) {
-                const handleMouseMove = (e) => {
-                    const rect = magneticBtn.getBoundingClientRect();
-                    const x = e.clientX - rect.left - rect.width / 2;
-                    const y = e.clientY - rect.top - rect.height / 2;
-
-                    const distance = Math.sqrt(x * x + y * y);
-                    const pullRadius = 80;
-
-                    if (distance < pullRadius) {
-                        const pullFactor = 0.3;
-                        gsap.to(magneticBtn, {
-                            x: x * pullFactor,
-                            y: y * pullFactor,
-                            duration: 0.4,
-                            ease: 'power2.out',
-                        });
-                    }
-                };
-
-                const handleMouseLeave = () => {
-                    gsap.to(magneticBtn, {
-                        x: 0,
-                        y: 0,
-                        duration: 0.6,
-                        ease: 'elastic.out(1, 0.3)',
-                    });
-                };
-
-                const magneticArea = magneticBtn.parentElement;
-                magneticArea.addEventListener('mousemove', handleMouseMove);
-                magneticBtn.addEventListener('mouseleave', handleMouseLeave);
-            }
 
             // Breathing scroll indicator animation
             if (scrollIndicatorRef.current) {
                 gsap.to(scrollIndicatorRef.current, {
                     scale: 1.15,
                     opacity: 0.6,
-                    filter: 'drop-shadow(0 0 12px rgba(225, 82, 47, 0.6))',
-                    duration: 1.5,
+                    filter: 'drop-shadow(0 0 12px rgba(255, 255, 255, 0.4))',
+                    duration: 0.9,
                     ease: 'sine.inOut',
                     repeat: -1,
                     yoyo: true,
@@ -279,7 +252,7 @@ const styles = {
         position: 'relative',
         overflow: 'hidden',
         transition: 'transform 0.3s cubic-bezier(0.23, 1, 0.32, 1)',
-        borderRadius: '4px',
+        borderRadius: '16px',
     },
     ctaText: {
         position: 'relative',
@@ -304,7 +277,7 @@ const styles = {
     scrollLine: {
         width: '1px',
         height: 'clamp(40px, 8vh, 60px)',
-        background: 'linear-gradient(to bottom, var(--primary), transparent)',
+        background: 'linear-gradient(to bottom, rgba(255,255,255,0.3), transparent)',
     },
     scrollText: {
         fontSize: '0.7rem',

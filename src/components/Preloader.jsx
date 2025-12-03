@@ -68,12 +68,12 @@ const Preloader = ({ setLoading }) => {
                             .preloader-path-orange {
                                 stroke-dasharray: 3000;
                                 stroke-dashoffset: 3000;
-                                animation: drawPath 2s ease-in-out forwards;
+                                animation: drawPath 1.2s ease-in-out forwards;
                             }
                             .preloader-path-dark {
                                 stroke-dasharray: 2000;
                                 stroke-dashoffset: 2000;
-                                animation: drawPath 2s ease-in-out 0.5s forwards;
+                                animation: drawPath 1.2s ease-in-out 0.3s forwards;
                             }
                         `}
                     </style>

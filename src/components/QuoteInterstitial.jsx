@@ -39,8 +39,8 @@ const QuoteInterstitial = ({ text, highlightWords = [] }) => {
                                 whileInView={{ opacity: 1, y: 0 }}
                                 viewport={{ once: false, amount: 0.8 }}
                                 transition={{
-                                    duration: 0.8,
-                                    delay: i * 0.05,
+                                    duration: 0.5,
+                                    delay: i * 0.03,
                                     ease: [0.22, 1, 0.36, 1]
                                 }}
                             >
@@ -71,7 +71,7 @@ const styles = {
         width: '100%',
     },
     quote: {
-        fontSize: 'clamp(1.75rem, 6vw, 8rem)',
+        fontSize: 'clamp(2rem, 6vw, 8rem)',
         fontWeight: '800',
         lineHeight: '1.15',
         textTransform: 'uppercase',

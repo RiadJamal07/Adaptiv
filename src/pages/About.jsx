@@ -3,8 +3,6 @@ import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import img3 from '../assets/3.jpg';
 
-gsap.registerPlugin(ScrollTrigger);
-
 const About = () => {
     const sectionRef = useRef(null);
     const headingRef = useRef(null);
@@ -26,8 +24,8 @@ const About = () => {
                 opacity: 0,
                 y: 50,
                 rotateX: -90,
-                stagger: 0.03,
-                duration: 0.8,
+                stagger: 0.02,
+                duration: 0.5,
                 ease: 'back.out(1.7)',
                 scrollTrigger: {
                     trigger: heading,
@@ -47,14 +45,14 @@ const About = () => {
                     {
                         clipPath: 'inset(0 0 0% 0)',
                         opacity: 1,
-                        duration: 1,
+                        duration: 0.6,
                         ease: 'power3.out',
                         scrollTrigger: {
                             trigger: text,
                             start: 'top 85%',
                             toggleActions: 'play none none reverse',
                         },
-                        delay: i * 0.12,
+                        delay: i * 0.07,
                     }
                 );
             });
@@ -66,7 +64,7 @@ const About = () => {
 
             gsap.to(imageRevealRef.current, {
                 clipPath: 'inset(0 0% 0 0)',
-                duration: 1.2,
+                duration: 0.7,
                 ease: 'power4.inOut',
                 scrollTrigger: {
                     trigger: imageRef.current,
@@ -97,7 +95,7 @@ const About = () => {
                     { innerText: 0 },
                     {
                         innerText: target,
-                        duration: 2,
+                        duration: 1.2,
                         ease: 'power2.out',
                         snap: { innerText: 1 },
                         scrollTrigger: {
@@ -238,11 +236,11 @@ const styles = {
         fontSize: '3rem',
         fontWeight: 800,
         color: 'var(--primary)',
-        lineHeight: 1,
+        lineHeight: 1.1,
     },
     statLabel: {
         fontSize: '0.9rem',
-        color: 'rgba(255,255,255,0.6)',
+        color: 'rgba(255,255,255,0.85)',
         textTransform: 'uppercase',
         letterSpacing: '1px',
         marginTop: '0.5rem',
