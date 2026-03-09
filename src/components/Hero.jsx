@@ -142,8 +142,8 @@ const Hero = () => {
                 </h1>
 
                 <p ref={subtitleRef} style={styles.subtitle}>
-                    Science-based training tailored to your lifestyle.<br />
-                    Duathlon & Performance Coaching by Omar Zaatiti.
+                    Science-based training tailored to your lifestyle and current fitness level.<br />
+                    Triathlon & Performance Coaching by Omar Zaatiti.
                 </p>
 
                 <div style={{ display: 'inline-block' }}>

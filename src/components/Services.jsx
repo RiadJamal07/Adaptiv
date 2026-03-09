@@ -1,7 +1,7 @@
 import React, { useRef, useEffect } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { FaRunning, FaHeartbeat, FaChild, FaArrowRight } from 'react-icons/fa';
+import { FaChild, FaHeartbeat, FaRunning, FaArrowRight } from 'react-icons/fa';
 import TiltCard from './TiltCard';
 
 
@@ -13,27 +13,48 @@ const Services = () => {
 
     const services = [
         {
-            icon: <FaRunning />,
+            icon: <FaChild />,
             number: '01',
-            title: 'Performance Coaching',
-            description: 'Customized training plans for Triathlon, Duathlon, Running, and Cycling. Built on science and data.',
-            features: ['Personalized Plans', 'Data Analysis', 'Race Strategy'],
+            title: 'Adaptive',
+            description: 'Special needs 1-on-1 private sessions tailored to each individual\'s abilities and goals.',
+            features: [
+                'Developmental delays & ADHD / Autism spectrum',
+                'Learning disabilities & coordination disorders',
+                'Physical disabilities (cerebral palsy, amputations)',
+                'Intellectual disabilities & sensory impairments',
+                'Chronic conditions (obesity, diabetes, cardiovascular)',
+                'Neurological disorders (e.g., Parkinson\'s)',
+            ],
         },
         {
             icon: <FaHeartbeat />,
             number: '02',
-            title: 'Lifestyle & Fitness',
-            description: 'Improve your lifestyle through fitness and gym programs. Weight loss, better health, and stronger routines.',
-            features: ['Nutrition Guidance', 'Gym Programs', 'Habit Building'],
+            title: 'Fitness Training',
+            description: 'Improving your lifestyle through training and building strength plans for athletes.',
+            features: [
+                'Lifestyle improvement programs',
+                'Strength training plans for athletes',
+            ],
         },
         {
-            icon: <FaChild />,
+            icon: <FaRunning />,
             number: '03',
-            title: 'Youth & Adapted',
-            description: 'Specialized coaching for kids and youth, including adapted physical activity for special needs.',
-            features: ['Age-Appropriate', 'Fun & Engaging', 'Inclusive Programs'],
+            title: 'Adaptive x Profit',
+            description: 'Structured endurance sport programs to elevate your competitive performance.',
+            features: [
+                'Running programs',
+                'Cycling programs',
+                'Duathlon programs',
+            ],
         },
     ];
+
+    const scrollToContact = () => {
+        const contactSection = document.querySelector('#contact');
+        if (contactSection) {
+            contactSection.scrollIntoView({ behavior: 'smooth' });
+        }
+    };
 
     useEffect(() => {
         const ctx = gsap.context(() => {
@@ -118,12 +139,12 @@ const Services = () => {
             <div className="container">
                 {/* Section Header */}
                 <div ref={headingRef} style={styles.header}>
-                    <span style={styles.label}>What We Offer</span>
+                    <span style={styles.label}>What I Offer</span>
                     <h2 style={styles.heading}>
                         Coaching <span style={styles.headingAccent}>Services</span>
                     </h2>
                     <p style={styles.subheading}>
-                        Transform your performance with personalized coaching tailored to your goals
+                        Training adapted to your goals, abilities, and lifestyle
                     </p>
                 </div>
 
@@ -162,8 +183,8 @@ const Services = () => {
                             </ul>
 
                             {/* Card Footer */}
-                            <div style={styles.cardFooter}>
-                                <span style={styles.learnMore}>Learn More</span>
+                            <div style={styles.cardFooter} onClick={scrollToContact}>
+                                <span style={styles.learnMore}>Book a Consultation</span>
                                 <FaArrowRight style={styles.arrow} />
                             </div>
 
@@ -323,6 +344,7 @@ const styles = {
         gap: '0.5rem',
         paddingTop: '1.5rem',
         borderTop: '1px solid rgba(255,255,255,0.08)',
+        cursor: 'pointer',
     },
     learnMore: {
         fontSize: '0.9rem',

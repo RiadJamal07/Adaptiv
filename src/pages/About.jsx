@@ -9,7 +9,7 @@ const About = () => {
     const textRefs = useRef([]);
     const imageRef = useRef(null);
     const imageRevealRef = useRef(null);
-    const statRefs = useRef([]);
+    const credentialsRef = useRef(null);
 
     useEffect(() => {
         const ctx = gsap.context(() => {
@@ -57,6 +57,24 @@ const About = () => {
                 );
             });
 
+            // Credentials animation
+            if (credentialsRef.current) {
+                gsap.fromTo(credentialsRef.current,
+                    { clipPath: 'inset(0 0 100% 0)', opacity: 0 },
+                    {
+                        clipPath: 'inset(0 0 0% 0)',
+                        opacity: 1,
+                        duration: 0.6,
+                        ease: 'power3.out',
+                        scrollTrigger: {
+                            trigger: credentialsRef.current,
+                            start: 'top 85%',
+                            toggleActions: 'play none none reverse',
+                        },
+                    }
+                );
+            }
+
             // Image reveal with clip-path
             gsap.set(imageRevealRef.current, {
                 clipPath: 'inset(0 100% 0 0)',
@@ -84,34 +102,19 @@ const About = () => {
                     scrub: true,
                 },
             });
-
-            // Animated stat counters
-            statRefs.current.forEach((stat) => {
-                if (!stat) return;
-                const target = parseInt(stat.dataset.value);
-                const suffix = stat.dataset.suffix || '';
-
-                gsap.fromTo(stat,
-                    { innerText: 0 },
-                    {
-                        innerText: target,
-                        duration: 1.2,
-                        ease: 'power2.out',
-                        snap: { innerText: 1 },
-                        scrollTrigger: {
-                            trigger: stat,
-                            start: 'top 85%',
-                        },
-                        onUpdate: function() {
-                            stat.innerText = Math.round(this.targets()[0].innerText) + suffix;
-                        }
-                    }
-                );
-            });
         }, sectionRef);
 
         return () => ctx.revert();
     }, []);
+
+    const credentials = [
+        'BA in Adapted Physical Activity & Motricity Training',
+        'Certified Cycling Coach — SSISA Academy',
+        'Certified Cycling Coach — UESCA Academy',
+        'Certified Running Coach — UESCA Academy',
+        'Certified World Triathlon Coach Level 1',
+        'Certified Track & Field Coach — Performance First',
+    ];
 
     return (
         <div ref={sectionRef} style={styles.container}>
@@ -121,50 +124,42 @@ const About = () => {
                         <h2 ref={headingRef} style={styles.heading}>About Omar</h2>
 
                         <p ref={el => textRefs.current[0] = el} style={styles.text}>
-                            With over a decade of experience in endurance sports, Omar Zaatiti
-                            has transformed hundreds of athletes through personalized coaching
-                            and data-driven training methodologies.
+                            I'm Omar Zaatiti, a duathlete and performance coach. I started training
+                            at 16 and began coaching at 20, and since then I've dedicated myself to
+                            understanding how people move, learn, and grow through sport.
                         </p>
 
                         <p ref={el => textRefs.current[1] = el} style={styles.text}>
-                            His approach combines cutting-edge sports science with practical,
-                            sustainable training plans that fit into your lifestyle.
+                            Today, I train over 16 hours a week as a multi-sport athlete and coach
+                            kids, youth, and adults. I also hold a degree in Adapted Physical Activity,
+                            where I worked with children and individuals with special needs—an experience
+                            that shaped how I tailor training to each person's level and abilities.
                         </p>
 
                         <p ref={el => textRefs.current[2] = el} style={styles.text}>
-                            Whether you're a beginner looking to complete your first race or an
-                            experienced athlete chasing personal records, Omar's coaching adapts
-                            to your unique goals and circumstances.
+                            My coaching philosophy is simple: I've always believed that performance
+                            comes from adaptation—not perfection—and that every athlete deserves a
+                            training approach that meets them where they are and builds them into who
+                            they can become.
                         </p>
 
-                        <div ref={el => textRefs.current[3] = el} style={styles.stats}>
-                            <div style={styles.stat}>
-                                <span
-                                    ref={el => statRefs.current[0] = el}
-                                    data-value="10"
-                                    data-suffix="+"
-                                    style={styles.statNumber}
-                                >0+</span>
-                                <span style={styles.statLabel}>Years Experience</span>
-                            </div>
-                            <div style={styles.stat}>
-                                <span
-                                    ref={el => statRefs.current[1] = el}
-                                    data-value="500"
-                                    data-suffix="+"
-                                    style={styles.statNumber}
-                                >0+</span>
-                                <span style={styles.statLabel}>Athletes Coached</span>
-                            </div>
-                            <div style={styles.stat}>
-                                <span
-                                    ref={el => statRefs.current[2] = el}
-                                    data-value="50"
-                                    data-suffix="+"
-                                    style={styles.statNumber}
-                                >0+</span>
-                                <span style={styles.statLabel}>Race Wins</span>
-                            </div>
+                        <p ref={el => textRefs.current[3] = el} style={styles.text}>
+                            That belief is the heart behind Adaptiv. Sports has been my language since
+                            I was young. Coaching is where I translate that language into real change
+                            for others.
+                        </p>
+
+                        <p ref={el => textRefs.current[4] = el} style={styles.text}>
+                            Welcome to Adaptiv—where performance begins with understanding.
+                        </p>
+
+                        <div ref={credentialsRef} style={styles.credentials}>
+                            <h3 style={styles.credentialsTitle}>Credentials</h3>
+                            <ul style={styles.credentialsList}>
+                                {credentials.map((cred, i) => (
+                                    <li key={i} style={styles.credentialItem}>{cred}</li>
+                                ))}
+                            </ul>
                         </div>
                     </div>
 
@@ -222,28 +217,32 @@ const styles = {
         marginBottom: '1.5rem',
         color: 'rgba(255,255,255,0.8)',
     },
-    stats: {
-        display: 'flex',
-        gap: '2rem',
+    credentials: {
         marginTop: '2rem',
-        flexWrap: 'wrap',
     },
-    stat: {
-        display: 'flex',
-        flexDirection: 'column',
-    },
-    statNumber: {
-        fontSize: '3rem',
-        fontWeight: 800,
+    credentialsTitle: {
+        fontSize: '1.3rem',
+        fontWeight: 700,
         color: 'var(--primary)',
-        lineHeight: 1.1,
-    },
-    statLabel: {
-        fontSize: '0.9rem',
-        color: 'rgba(255,255,255,0.85)',
+        marginBottom: '1rem',
         textTransform: 'uppercase',
         letterSpacing: '1px',
-        marginTop: '0.5rem',
+    },
+    credentialsList: {
+        listStyle: 'none',
+        padding: 0,
+        margin: 0,
+        display: 'flex',
+        flexDirection: 'column',
+        gap: '0.6rem',
+    },
+    credentialItem: {
+        fontSize: '0.95rem',
+        color: 'rgba(255,255,255,0.85)',
+        padding: '0.6rem 1rem',
+        borderLeft: '3px solid var(--primary)',
+        background: 'rgba(255,255,255,0.03)',
+        borderRadius: '0 8px 8px 0',
     },
     imageWrapper: {
         position: 'relative',
