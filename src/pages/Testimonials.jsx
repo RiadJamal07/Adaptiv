@@ -10,8 +10,13 @@ const Testimonials = () => {
         },
         {
             name: "Michel",
-            role: "Runner & Cyclist",
+            role: "Duathlete",
             text: "I started working out with coach Omar with the goal of improving my running and cycling performance, and the progress since then has been very noticeable.\n\nMy fitness has steadily increased, the training program balances cycling and running workouts without causing burnout or injury. Since starting, I've seen real progress in my running pace and cycling power, and I feel much stronger and more efficient during longer efforts.\n\nOmar is always available for support and fast response whenever adjustments or advice are needed. His expertise and dedication to the long-term growth of athletes make him an exceptional coach."
+        },
+        {
+            name: "Mohamad Nourelddine",
+            role: "Duathlete",
+            text: "I just wrapped up the 2025–2026 season and I've been training with coach Omar since 2023. I couldn't be more grateful — under his guidance in cycling and running, I achieved over 10 podium finishes and set a new PB of 17:09 in the 5K!\n\nHe was always by my side, constantly pushing me and providing the perfect balance of motivation and technical guidance. Without a doubt, he's one of the best coaches I've ever had.\n\nI deeply appreciate his hard work and dedication and I'm so excited to see what we can accomplish in the upcoming season."
         }
     ];
 
@@ -73,7 +78,7 @@ const styles = {
         display: 'grid',
         gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 400px), 1fr))',
         gap: 'clamp(1.5rem, 3vw, 2rem)',
-        maxWidth: '1000px',
+        maxWidth: '1200px',
         margin: '0 auto',
     },
     card: {
