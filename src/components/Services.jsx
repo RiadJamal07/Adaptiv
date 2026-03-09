@@ -3,6 +3,7 @@ import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { FaChild, FaHeartbeat, FaRunning, FaArrowRight } from 'react-icons/fa';
 import TiltCard from './TiltCard';
+import profitLogo from '../assets/profit-logo.png';
 
 
 const Services = () => {
@@ -29,7 +30,7 @@ const Services = () => {
         {
             icon: <FaHeartbeat />,
             number: '02',
-            title: 'Fitness Training',
+            title: 'Athletic & Fitness Training',
             description: 'Improving your lifestyle through training and building strength plans for athletes.',
             features: [
                 'Lifestyle improvement programs',
@@ -40,10 +41,10 @@ const Services = () => {
             icon: <FaRunning />,
             number: '03',
             title: 'Adaptive x Profit',
+            showProfitLogo: true,
             description: 'Structured endurance sport programs to elevate your competitive performance.',
             features: [
-                'Running programs',
-                'Cycling programs',
+                'Triathlon programs',
                 'Duathlon programs',
             ],
         },
@@ -169,7 +170,12 @@ const Services = () => {
                             </div>
 
                             {/* Card Content */}
-                            <h3 style={styles.cardTitle}>{service.title}</h3>
+                            <h3 style={styles.cardTitle}>
+                                {service.title}
+                                {service.showProfitLogo && (
+                                    <img src={profitLogo} alt="Profit" style={styles.profitLogo} />
+                                )}
+                            </h3>
                             <p style={styles.cardDescription}>{service.description}</p>
 
                             {/* Features */}
@@ -311,6 +317,14 @@ const styles = {
         fontWeight: 700,
         marginBottom: '1rem',
         color: 'var(--white)',
+        display: 'flex',
+        alignItems: 'center',
+        gap: '0.75rem',
+    },
+    profitLogo: {
+        height: '28px',
+        width: 'auto',
+        objectFit: 'contain',
     },
     cardDescription: {
         fontSize: '0.95rem',
