@@ -17,6 +17,11 @@ const Testimonials = () => {
             name: "Mohamad Nourelddine",
             role: "Duathlete",
             text: "I just wrapped up the 2025–2026 season and I've been training with coach Omar since 2023. I couldn't be more grateful — under his guidance in cycling and running, I achieved over 10 podium finishes and set a new PB of 17:09 in the 5K!\n\nHe was always by my side, constantly pushing me and providing the perfect balance of motivation and technical guidance. Without a doubt, he's one of the best coaches I've ever had.\n\nI deeply appreciate his hard work and dedication and I'm so excited to see what we can accomplish in the upcoming season."
+        },
+        {
+            name: "Afif Ayoubi",
+            role: "Football Athlete",
+            text: "I started training with Coach Omar to improve my running speed and endurance, as I always felt those were my weak points while playing football. Since then, both have improved a lot. He also helped me significantly improve my change-of-direction skills on the field.\n\nMy muscles feel stronger and more efficient, and I've finally built the physique I always wanted. His training truly works. I'm in the best shape that I've always dreamed of."
         }
     ];
 
@@ -76,7 +81,7 @@ const styles = {
     },
     grid: {
         display: 'grid',
-        gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 400px), 1fr))',
+        gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 380px), 1fr))',
         gap: 'clamp(1.5rem, 3vw, 2rem)',
         maxWidth: '1200px',
         margin: '0 auto',

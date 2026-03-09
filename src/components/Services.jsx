@@ -44,7 +44,7 @@ const Services = () => {
             showProfitLogo: true,
             description: 'Structured endurance sport programs to elevate your competitive performance.',
             features: [
-                'Triathlon programs',
+                'Running & Cycling programs',
                 'Duathlon programs',
             ],
         },
