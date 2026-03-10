@@ -30,6 +30,11 @@ const reviews = [
         text: "I started training with Coach Omar to improve my running speed and endurance, as I always felt those were my weak points while playing football. Since then, both have improved a lot. He also helped me significantly improve my change-of-direction skills on the field.\n\nMy muscles feel stronger and more efficient, and I've finally built the physique I always wanted. His training truly works. I'm in the best shape that I've always dreamed of."
     },
     {
+        name: "Doumouh Al Bakkar",
+        role: "Football Referee",
+        text: "I started training with Coach Omar to prepare for my physical and fitness test as a football referee for the AFC Asian Cup in Australia and to improve my overall performance on the field.\n\nThe results were outstanding. My reaction time, running mechanics, and speed improved significantly. I felt lighter, faster, and much more explosive during matches. The improvement was noticeable, and many experts and colleagues recognized the difference in my performance."
+    },
+    {
         name: "Sahar Saidi",
         role: "Parent",
         text: "I came to Lebanon for a summer vacation and was recommended to have my beloved son, Tarek, train with Coach Omar. Tarek has ADHD, and I'm truly grateful for the patience, understanding, and care Coach Omar showed during their sessions. It was a wonderful experience for my son, and I look forward to meeting him again when we visit Lebanon next year."
