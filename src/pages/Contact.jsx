@@ -139,7 +139,7 @@ const Contact = () => {
                         <div style={styles.ctaBox}>
                             <div style={styles.ctaContent}>
                                 <span style={styles.ctaLabel}>Ready to Start?</span>
-                                <h3 style={styles.ctaHeading}>Book Your Free Consultation</h3>
+                                <h3 style={styles.ctaHeading}>Book Your Consultation</h3>
                                 <p style={styles.ctaText}>
                                     Get a personalized assessment and learn how we can help you
                                     reach your fitness goals. No commitment required.

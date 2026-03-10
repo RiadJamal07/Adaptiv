@@ -3,7 +3,7 @@ import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { FaChild, FaHeartbeat, FaRunning, FaArrowRight } from 'react-icons/fa';
 import TiltCard from './TiltCard';
-import profitLogo from '../assets/profit-logo.png';
+import profitLogo from '../assets/profit-logo-white.png';
 
 
 const Services = () => {
@@ -44,8 +44,9 @@ const Services = () => {
             showProfitLogo: true,
             description: 'Structured endurance sport programs to elevate your competitive performance.',
             features: [
-                'Running & Cycling programs',
-                'Duathlon programs',
+                'Private & Group sessions',
+                'Swimming, Running & Cycling programs',
+                'Duathlon & Triathlon programs',
             ],
         },
     ];

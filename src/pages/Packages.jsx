@@ -56,7 +56,7 @@ const Packages = () => {
 
                 {/* CTA Card */}
                 <div ref={cardRef} style={styles.ctaCard}>
-                    <h3 style={styles.ctaTitle}>Book Your Free Consultation</h3>
+                    <h3 style={styles.ctaTitle}>Book Your Consultation</h3>
                     <p style={styles.ctaDescription}>
                         Tell me about your goals and fitness level, and together we'll build a
                         training plan that works for you.
