@@ -33,7 +33,7 @@ const Services = () => {
             title: 'Athletic & Fitness Training',
             description: 'Improving your lifestyle through training and building strength plans for athletes.',
             features: [
-                'Lifestyle improvement programs',
+                'Enhancing fitness through personalized training programs built around your schedule',
                 'Strength training plans for athletes',
             ],
         },
@@ -45,7 +45,7 @@ const Services = () => {
             description: 'Structured endurance sport programs to elevate your competitive performance.',
             features: [
                 'Private & Group sessions',
-                'Swimming, Running & Cycling programs',
+                'Running & Cycling programs',
                 'Duathlon & Triathlon programs',
             ],
         },
