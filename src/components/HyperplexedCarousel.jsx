@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useState, useCallback } from 'react';
+import React, { useRef, useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
@@ -27,7 +27,7 @@ const HyperplexedCarousel = () => {
         return () => ctx.revert();
     }, []);
 
-    // Lock body scroll when lightbox open
+    // Lightbox keyboard nav + body lock
     useEffect(() => {
         if (selectedIndex !== null) {
             document.body.style.overflow = 'hidden';
@@ -50,20 +50,20 @@ const HyperplexedCarousel = () => {
                         Moments of <span style={styles.headingAccent}>Excellence</span>
                     </h2>
                 </div>
+            </div>
 
-                <div style={styles.grid} className="gallery-grid">
-                    {images.map((src, i) => (
-                        <div
-                            key={i}
-                            className="gallery-item"
-                            style={styles.item}
-                            onClick={() => setSelectedIndex(i)}
-                        >
-                            <img src={src} alt={`Gallery ${i + 1}`} style={styles.image} draggable="false" />
-                            <div style={styles.overlay} className="gallery-overlay" />
-                        </div>
-                    ))}
-                </div>
+            {/* Horizontal scroll strip */}
+            <div className="gallery-strip">
+                {images.map((src, i) => (
+                    <div
+                        key={i}
+                        className="gallery-item"
+                        onClick={() => setSelectedIndex(i)}
+                    >
+                        <img src={src} alt={`Gallery ${i + 1}`} draggable="false" />
+                        <div className="gallery-overlay" />
+                    </div>
+                ))}
             </div>
 
             {/* Lightbox */}
@@ -121,28 +121,40 @@ const HyperplexedCarousel = () => {
             </AnimatePresence>
 
             <style>{`
-                .gallery-grid {
-                    display: grid;
-                    grid-template-columns: repeat(3, 1fr);
+                .gallery-strip {
+                    display: flex;
                     gap: clamp(0.5rem, 1.5vw, 1rem);
+                    overflow-x: auto;
+                    -webkit-overflow-scrolling: touch;
+                    scroll-snap-type: x proximity;
+                    scrollbar-width: none;
+                    padding: 0 clamp(1rem, 4vw, 3rem);
                 }
-                .gallery-grid .gallery-item:nth-child(4) {
-                    grid-column: span 2;
-                }
-                @media (max-width: 640px) {
-                    .gallery-grid {
-                        grid-template-columns: repeat(2, 1fr);
-                    }
-                    .gallery-grid .gallery-item:nth-child(4) {
-                        grid-column: span 1;
-                    }
+                .gallery-strip::-webkit-scrollbar {
+                    display: none;
                 }
                 .gallery-item {
-                    cursor: pointer;
-                    overflow: hidden;
+                    flex: 0 0 clamp(280px, 40vw, 450px);
+                    aspect-ratio: 4 / 3;
                     border-radius: 12px;
+                    overflow: hidden;
+                    cursor: pointer;
+                    position: relative;
+                    scroll-snap-align: start;
+                }
+                .gallery-item img {
+                    width: 100%;
+                    height: 100%;
+                    object-fit: cover;
+                    display: block;
+                    transition: transform 0.4s ease;
+                    user-select: none;
                 }
                 .gallery-overlay {
+                    position: absolute;
+                    inset: 0;
+                    background: rgba(0,0,0,0.3);
+                    pointer-events: none;
                     opacity: 0;
                     transition: opacity 0.3s ease;
                 }
@@ -168,6 +180,7 @@ const HyperplexedCarousel = () => {
 const styles = {
     section: {
         padding: 'clamp(5rem, 15vh, 10rem) 0',
+        overflow: 'hidden',
     },
     header: {
         textAlign: 'center',
@@ -191,24 +204,6 @@ const styles = {
     },
     headingAccent: {
         color: 'var(--primary)',
-    },
-    grid: {},
-    item: {
-        position: 'relative',
-        aspectRatio: '4 / 3',
-    },
-    image: {
-        width: '100%',
-        height: '100%',
-        objectFit: 'cover',
-        display: 'block',
-        transition: 'transform 0.4s ease',
-    },
-    overlay: {
-        position: 'absolute',
-        inset: 0,
-        background: 'rgba(0,0,0,0.3)',
-        pointerEvents: 'none',
     },
     lightbox: {
         position: 'fixed',
