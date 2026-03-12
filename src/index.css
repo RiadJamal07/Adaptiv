@@ -195,10 +195,6 @@ section#home {
   padding: 0;
 }
 
-/* Gallery section - no padding */
-section#gallery {
-  padding: 0;
-}
 
 .app-container {
   position: relative;

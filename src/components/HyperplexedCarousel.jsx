@@ -1,6 +1,8 @@
-import React, { useRef, useEffect } from 'react';
+import React, { useRef, useEffect, useState, useCallback } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { FaTimes, FaChevronLeft, FaChevronRight } from 'react-icons/fa';
 
 import img1 from '../assets/1.jpg';
 import img2 from '../assets/2.jpg';
@@ -8,309 +10,256 @@ import img3 from '../assets/3.jpg';
 import img4 from '../assets/4.jpg';
 import img5 from '../assets/5.jpg';
 
-const HyperplexedCarousel = () => {
-    const containerRef = useRef(null);
-    const trackRef = useRef(null);
-    const imagesRef = useRef([]);
-    const headingRef = useRef(null);
+const images = [img1, img2, img3, img4, img5];
 
-    const images = [img1, img2, img3, img4, img5];
+const HyperplexedCarousel = () => {
+    const sectionRef = useRef(null);
+    const headingRef = useRef(null);
+    const [selectedIndex, setSelectedIndex] = useState(null);
 
     useEffect(() => {
         const ctx = gsap.context(() => {
-            const track = trackRef.current;
-            const imageElements = imagesRef.current;
-
-            // Heading animation
             gsap.from(headingRef.current, {
-                opacity: 0,
-                y: 60,
-                duration: 0.6,
-                ease: 'power3.out',
-                scrollTrigger: {
-                    trigger: containerRef.current,
-                    start: 'top 80%',
-                },
+                opacity: 0, y: 60, duration: 0.6, ease: 'power3.out',
+                scrollTrigger: { trigger: headingRef.current, start: 'top 85%' },
             });
-
-            // Calculate total scroll distance (track width minus viewport)
-            const getScrollDistance = () => {
-                return track.scrollWidth - window.innerWidth;
-            };
-
-            // Horizontal scroll animation (main container animation)
-            const horizontalScroll = gsap.to(track, {
-                x: () => -getScrollDistance(),
-                ease: 'none',
-                scrollTrigger: {
-                    trigger: containerRef.current,
-                    start: 'top top',
-                    end: () => `+=${getScrollDistance()}`,
-                    pin: true,
-                    scrub: 1,
-                    invalidateOnRefresh: true,
-                    anticipatePin: 1,
-                },
-            });
-
-            // Background gradient parallax
-            const bgGradient = containerRef.current.querySelector('[data-bg-gradient]');
-            if (bgGradient) {
-                gsap.to(bgGradient, {
-                    x: () => -getScrollDistance() * 0.3,
-                    ease: 'none',
-                    scrollTrigger: {
-                        trigger: containerRef.current,
-                        start: 'top top',
-                        end: () => `+=${getScrollDistance()}`,
-                        scrub: 1,
-                        invalidateOnRefresh: true,
-                    },
-                });
-            }
-
-            // Enhanced parallax + clip-path reveals on images
-            imageElements.forEach((img, index) => {
-                if (!img) return;
-
-                const wrapper = img.parentElement;
-
-                // Alternating parallax speeds for depth
-                const parallaxMultiplier = index % 2 === 0 ? 0.8 : 1.2;
-
-                // Parallax effect on object position
-                gsap.to(img, {
-                    objectPosition: `${(100 - (100 * parallaxMultiplier))}% center`,
-                    ease: 'none',
-                    scrollTrigger: {
-                        trigger: containerRef.current,
-                        start: 'top top',
-                        end: () => `+=${getScrollDistance()}`,
-                        scrub: 1,
-                        invalidateOnRefresh: true,
-                    },
-                });
-
-                // Clip-path reveal animation synced with horizontal scroll
-                gsap.fromTo(
-                    wrapper,
-                    {
-                        clipPath: 'inset(0 100% 0 0)',
-                    },
-                    {
-                        clipPath: 'inset(0 0% 0 0)',
-                        ease: 'power2.out',
-                        scrollTrigger: {
-                            trigger: wrapper,
-                            containerAnimation: horizontalScroll,
-                            start: 'left right',
-                            end: 'left center',
-                            scrub: 1,
-                            invalidateOnRefresh: true,
-                        },
-                    }
-                );
-
-                // Scale effect on image during reveal
-                gsap.fromTo(
-                    img,
-                    {
-                        scale: 1.2,
-                    },
-                    {
-                        scale: 1,
-                        ease: 'power2.out',
-                        scrollTrigger: {
-                            trigger: wrapper,
-                            containerAnimation: horizontalScroll,
-                            start: 'left right',
-                            end: 'left center',
-                            scrub: 1,
-                            invalidateOnRefresh: true,
-                        },
-                    }
-                );
-            });
-
-        }, containerRef);
-
+        }, sectionRef);
         return () => ctx.revert();
     }, []);
 
+    // Lock body scroll when lightbox open
+    useEffect(() => {
+        if (selectedIndex !== null) {
+            document.body.style.overflow = 'hidden';
+            const onKey = (e) => {
+                if (e.key === 'Escape') setSelectedIndex(null);
+                if (e.key === 'ArrowRight') setSelectedIndex(i => (i + 1) % images.length);
+                if (e.key === 'ArrowLeft') setSelectedIndex(i => (i - 1 + images.length) % images.length);
+            };
+            document.addEventListener('keydown', onKey);
+            return () => { document.body.style.overflow = ''; document.removeEventListener('keydown', onKey); };
+        }
+    }, [selectedIndex]);
+
     return (
-        <div ref={containerRef} style={styles.container}>
-            {/* Background gradient */}
-            <div data-bg-gradient style={styles.bgGradient} />
+        <section ref={sectionRef} style={styles.section}>
+            <div className="container">
+                <div ref={headingRef} style={styles.header}>
+                    <span style={styles.label}>Gallery</span>
+                    <h2 style={styles.heading}>
+                        Moments of <span style={styles.headingAccent}>Excellence</span>
+                    </h2>
+                </div>
 
-            {/* Section heading */}
-            <div ref={headingRef} style={styles.headingWrapper}>
-                <span style={styles.label}>Gallery</span>
-                <h2 style={styles.heading}>
-                    Moments of <span style={styles.headingAccent}>Excellence</span>
-                </h2>
-            </div>
-
-            {/* Carousel track */}
-            <div ref={trackRef} style={styles.track}>
-                {images.map((src, index) => (
-                    <div key={index} style={styles.imageWrapper}>
-                        <img
-                            ref={(el) => (imagesRef.current[index] = el)}
-                            src={src}
-                            alt={`Gallery ${index + 1}`}
-                            draggable="false"
-                            style={styles.image}
-                        />
-                        <div style={styles.imageOverlay} />
-                        <span style={styles.imageNumber}>0{index + 1}</span>
-                    </div>
-                ))}
-            </div>
-
-            {/* Scroll instruction */}
-            <div style={styles.instruction}>
-                <div style={styles.scrollLine} />
-                <span style={styles.scrollText}>Scroll to explore</span>
-            </div>
-
-            {/* Progress indicator */}
-            <div style={styles.progressWrapper}>
-                <div style={styles.progressBar}>
-                    <div style={styles.progressFill} className="progress-fill" />
+                <div style={styles.grid} className="gallery-grid">
+                    {images.map((src, i) => (
+                        <div
+                            key={i}
+                            className="gallery-item"
+                            style={styles.item}
+                            onClick={() => setSelectedIndex(i)}
+                        >
+                            <img src={src} alt={`Gallery ${i + 1}`} style={styles.image} draggable="false" />
+                            <div style={styles.overlay} className="gallery-overlay" />
+                        </div>
+                    ))}
                 </div>
             </div>
-        </div>
+
+            {/* Lightbox */}
+            <AnimatePresence>
+                {selectedIndex !== null && (
+                    <motion.div
+                        style={styles.lightbox}
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        transition={{ duration: 0.25 }}
+                        onClick={() => setSelectedIndex(null)}
+                    >
+                        <button
+                            style={styles.closeBtn}
+                            className="lb-btn"
+                            onClick={() => setSelectedIndex(null)}
+                            aria-label="Close"
+                        >
+                            <FaTimes size={18} />
+                        </button>
+
+                        <button
+                            style={{ ...styles.navBtn, left: 'clamp(0.5rem, 2vw, 1.5rem)' }}
+                            className="lb-btn"
+                            onClick={(e) => { e.stopPropagation(); setSelectedIndex(i => (i - 1 + images.length) % images.length); }}
+                            aria-label="Previous"
+                        >
+                            <FaChevronLeft size={20} />
+                        </button>
+
+                        <motion.img
+                            key={selectedIndex}
+                            src={images[selectedIndex]}
+                            alt={`Gallery ${selectedIndex + 1}`}
+                            style={styles.lightboxImage}
+                            initial={{ opacity: 0, scale: 0.95 }}
+                            animate={{ opacity: 1, scale: 1 }}
+                            exit={{ opacity: 0, scale: 0.95 }}
+                            transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
+                            onClick={(e) => e.stopPropagation()}
+                            draggable="false"
+                        />
+
+                        <button
+                            style={{ ...styles.navBtn, right: 'clamp(0.5rem, 2vw, 1.5rem)' }}
+                            className="lb-btn"
+                            onClick={(e) => { e.stopPropagation(); setSelectedIndex(i => (i + 1) % images.length); }}
+                            aria-label="Next"
+                        >
+                            <FaChevronRight size={20} />
+                        </button>
+                    </motion.div>
+                )}
+            </AnimatePresence>
+
+            <style>{`
+                .gallery-grid {
+                    display: grid;
+                    grid-template-columns: repeat(3, 1fr);
+                    gap: clamp(0.5rem, 1.5vw, 1rem);
+                }
+                .gallery-grid .gallery-item:nth-child(4) {
+                    grid-column: span 2;
+                }
+                @media (max-width: 640px) {
+                    .gallery-grid {
+                        grid-template-columns: repeat(2, 1fr);
+                    }
+                    .gallery-grid .gallery-item:nth-child(4) {
+                        grid-column: span 1;
+                    }
+                }
+                .gallery-item {
+                    cursor: pointer;
+                    overflow: hidden;
+                    border-radius: 12px;
+                }
+                .gallery-overlay {
+                    opacity: 0;
+                    transition: opacity 0.3s ease;
+                }
+                @media (pointer: fine) {
+                    .gallery-item:hover .gallery-overlay {
+                        opacity: 1;
+                    }
+                    .gallery-item:hover img {
+                        transform: scale(1.05);
+                    }
+                }
+                .lb-btn {
+                    transition: background 0.2s ease;
+                }
+                .lb-btn:hover {
+                    background: rgba(255,255,255,0.2) !important;
+                }
+            `}</style>
+        </section>
     );
 };
 
 const styles = {
-    container: {
-        height: '100vh',
-        width: '100%',
-        backgroundColor: '#0a0a0a',
-        position: 'relative',
-        overflow: 'hidden',
-        display: 'flex',
-        alignItems: 'center',
+    section: {
+        padding: 'clamp(5rem, 15vh, 10rem) 0',
     },
-    bgGradient: {
-        position: 'absolute',
-        top: 0,
-        left: 0,
-        width: '100%',
-        height: '100%',
-        background: 'radial-gradient(ellipse at 20% 50%, rgba(255, 255, 255, 0.03) 0%, transparent 50%)',
-        pointerEvents: 'none',
-    },
-    headingWrapper: {
-        position: 'absolute',
-        top: 'clamp(80px, 15vh, 120px)',
-        left: 'clamp(1rem, 4vw, 3rem)',
-        zIndex: 10,
+    header: {
+        textAlign: 'center',
+        marginBottom: 'clamp(2rem, 5vh, 3rem)',
     },
     label: {
-        display: 'block',
-        fontSize: 'clamp(0.75rem, 1.5vw, 0.85rem)',
+        display: 'inline-block',
+        fontSize: '0.85rem',
         fontWeight: 600,
         textTransform: 'uppercase',
         letterSpacing: '3px',
         color: 'var(--primary)',
-        marginBottom: '0.75rem',
+        marginBottom: '1rem',
     },
     heading: {
-        fontSize: 'clamp(1.5rem, 5vw, 3.5rem)',
+        fontSize: 'clamp(2.5rem, 6vw, 4rem)',
         fontWeight: 800,
         textTransform: 'uppercase',
         letterSpacing: '-0.02em',
         lineHeight: 1.1,
-        margin: 0,
     },
     headingAccent: {
         color: 'var(--primary)',
     },
-    track: {
-        display: 'flex',
-        alignItems: 'center',
-        gap: 'clamp(1rem, 3vw, 2rem)',
-        paddingLeft: 'clamp(1rem, 4vw, 3rem)',
-        paddingRight: '50vw',
-        height: '60vh',
-        minHeight: '300px',
-    },
-    imageWrapper: {
+    grid: {},
+    item: {
         position: 'relative',
-        width: 'clamp(250px, 40vmin, 450px)',
-        height: '100%',
-        flexShrink: 0,
-        borderRadius: '16px',
-        overflow: 'hidden',
+        aspectRatio: '4 / 3',
     },
     image: {
         width: '100%',
         height: '100%',
         objectFit: 'cover',
-        objectPosition: '100% center',
-        userSelect: 'none',
-        pointerEvents: 'none',
+        display: 'block',
+        transition: 'transform 0.4s ease',
     },
-    imageOverlay: {
+    overlay: {
         position: 'absolute',
         inset: 0,
-        background: 'linear-gradient(to top, rgba(0,0,0,0.5) 0%, transparent 50%)',
+        background: 'rgba(0,0,0,0.3)',
         pointerEvents: 'none',
     },
-    imageNumber: {
-        position: 'absolute',
-        bottom: 'clamp(1rem, 3vw, 1.5rem)',
-        left: 'clamp(1rem, 3vw, 1.5rem)',
-        fontSize: 'clamp(2rem, 6vmin, 5rem)',
-        fontWeight: 900,
-        color: 'rgba(255,255,255,0.1)',
-        lineHeight: 1.1,
-        letterSpacing: '-0.05em',
-    },
-    instruction: {
-        position: 'absolute',
-        bottom: 'clamp(1.5rem, 5vh, 4rem)',
-        left: '50%',
-        transform: 'translateX(-50%)',
+    lightbox: {
+        position: 'fixed',
+        inset: 0,
+        background: 'rgba(0,0,0,0.9)',
+        backdropFilter: 'blur(8px)',
+        WebkitBackdropFilter: 'blur(8px)',
+        zIndex: 2000,
         display: 'flex',
-        flexDirection: 'column',
         alignItems: 'center',
-        gap: '0.75rem',
-        zIndex: 10,
+        justifyContent: 'center',
+        padding: '2rem',
     },
-    scrollLine: {
-        width: '1px',
-        height: '40px',
-        background: 'linear-gradient(to bottom, rgba(255,255,255,0.3), transparent)',
-        animation: 'scrollPulse 2s ease-in-out infinite',
+    lightboxImage: {
+        maxWidth: '90vw',
+        maxHeight: '85vh',
+        objectFit: 'contain',
+        borderRadius: '8px',
+        userSelect: 'none',
     },
-    scrollText: {
-        fontSize: '0.75rem',
-        textTransform: 'uppercase',
-        letterSpacing: '2px',
-        color: 'rgba(255,255,255,0.4)',
-    },
-    progressWrapper: {
+    closeBtn: {
         position: 'absolute',
-        bottom: 'clamp(1.5rem, 5vh, 4rem)',
-        right: 'clamp(1rem, 4vw, 3rem)',
-        width: '100px',
+        top: 'clamp(1rem, 3vw, 2rem)',
+        right: 'clamp(1rem, 3vw, 2rem)',
+        width: '44px',
+        height: '44px',
+        borderRadius: '50%',
+        border: '1px solid rgba(255,255,255,0.2)',
+        background: 'rgba(255,255,255,0.1)',
+        color: '#fff',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        cursor: 'pointer',
         zIndex: 10,
     },
-    progressBar: {
-        width: '100%',
-        height: '2px',
-        backgroundColor: 'rgba(255,255,255,0.1)',
-        borderRadius: '1px',
-        overflow: 'hidden',
-    },
-    progressFill: {
-        width: '0%',
-        height: '100%',
-        backgroundColor: 'var(--primary)',
-        transition: 'width 0.1s ease',
+    navBtn: {
+        position: 'absolute',
+        top: '50%',
+        transform: 'translateY(-50%)',
+        width: '48px',
+        height: '48px',
+        borderRadius: '50%',
+        border: '1px solid rgba(255,255,255,0.2)',
+        background: 'rgba(255,255,255,0.1)',
+        color: '#fff',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        cursor: 'pointer',
+        zIndex: 10,
     },
 };
 

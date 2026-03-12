@@ -3,7 +3,6 @@ import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { FaChild, FaHeartbeat, FaRunning, FaArrowRight } from 'react-icons/fa';
 import TiltCard from './TiltCard';
-import profitLogo from '../assets/profit-logo-white.png';
 
 
 const Services = () => {
@@ -41,7 +40,6 @@ const Services = () => {
             icon: <FaRunning />,
             number: '03',
             title: 'Adaptive x Profit',
-            showProfitLogo: true,
             description: 'Structured endurance sport programs to elevate your competitive performance.',
             features: [
                 'Private & Group sessions',
@@ -173,9 +171,6 @@ const Services = () => {
                             {/* Card Content */}
                             <h3 style={styles.cardTitle}>
                                 {service.title}
-                                {service.showProfitLogo && (
-                                    <img src={profitLogo} alt="Profit" style={styles.profitLogo} />
-                                )}
                             </h3>
                             <p style={styles.cardDescription}>{service.description}</p>
 
@@ -321,11 +316,6 @@ const styles = {
         display: 'flex',
         alignItems: 'center',
         gap: '0.75rem',
-    },
-    profitLogo: {
-        height: '28px',
-        width: 'auto',
-        objectFit: 'contain',
     },
     cardDescription: {
         fontSize: '0.95rem',

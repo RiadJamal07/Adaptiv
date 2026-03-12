@@ -5,7 +5,7 @@ import { FaChevronLeft, FaChevronRight } from 'react-icons/fa';
 
 gsap.registerPlugin(ScrollTrigger);
 
-const AUTO_INTERVAL = 4000;
+const AUTO_INTERVAL = 60000;
 const GAP = 24;
 
 const reviews = [
