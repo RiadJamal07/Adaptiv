@@ -125,7 +125,7 @@ const About = () => {
 
                         <p ref={el => textRefs.current[0] = el} style={styles.text}>
                             I'm Omar Zaatiti, a duathlete and performance coach. I started training
-                            at 16 and began coaching at 20 at Profit Academy, and since then I've
+                            at 16 and began coaching at 20 at <a href="https://www.instagram.com/profit_lb/" target="_blank" rel="noopener noreferrer" className="profit-link">Profit Academy</a>, and since then I've
                             dedicated myself to understanding how people move, learn, and grow through sport.
                         </p>
 
@@ -175,6 +175,19 @@ const About = () => {
                     </div>
                 </div>
             </div>
+
+            <style>{`
+                .profit-link {
+                    color: var(--primary);
+                    text-decoration: none;
+                    font-weight: 600;
+                    border-bottom: 1px solid transparent;
+                    transition: border-color 0.3s ease;
+                }
+                .profit-link:hover {
+                    border-bottom-color: var(--primary);
+                }
+            `}</style>
         </div>
     );
 };

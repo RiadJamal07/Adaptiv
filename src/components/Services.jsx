@@ -40,6 +40,7 @@ const Services = () => {
             icon: <FaRunning />,
             number: '03',
             title: 'Adaptive x Profit',
+            profitLink: true,
             description: 'Structured endurance sport programs to elevate your competitive performance.',
             features: [
                 'Private & Group sessions',
@@ -170,7 +171,9 @@ const Services = () => {
 
                             {/* Card Content */}
                             <h3 style={styles.cardTitle}>
-                                {service.title}
+                                {service.profitLink ? (
+                                    <>Adaptive x <a href="https://www.instagram.com/profit_lb/" target="_blank" rel="noopener noreferrer" className="profit-link">Profit</a></>
+                                ) : service.title}
                             </h3>
                             <p style={styles.cardDescription}>{service.description}</p>
 
@@ -219,6 +222,16 @@ const Services = () => {
                     .service-card {
                         padding: 1.5rem !important;
                     }
+                }
+                .profit-link {
+                    color: var(--primary);
+                    text-decoration: none;
+                    font-weight: inherit;
+                    border-bottom: 1px solid transparent;
+                    transition: border-color 0.3s ease;
+                }
+                .profit-link:hover {
+                    border-bottom-color: var(--primary);
                 }
             `}</style>
         </section>
@@ -313,9 +326,6 @@ const styles = {
         fontWeight: 700,
         marginBottom: '1rem',
         color: 'var(--white)',
-        display: 'flex',
-        alignItems: 'center',
-        gap: '0.75rem',
     },
     cardDescription: {
         fontSize: '0.95rem',
