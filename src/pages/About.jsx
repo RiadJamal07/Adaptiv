@@ -125,15 +125,16 @@ const About = () => {
 
                         <p ref={el => textRefs.current[0] = el} style={styles.text}>
                             I'm Omar Zaatiti, a duathlete and performance coach. I started training
-                            at 16 and began coaching at 20, and since then I've dedicated myself to
-                            understanding how people move, learn, and grow through sport.
+                            at 16 and began coaching at 20 at Profit Academy, and since then I've
+                            dedicated myself to understanding how people move, learn, and grow through sport.
                         </p>
 
                         <p ref={el => textRefs.current[1] = el} style={styles.text}>
                             Today, I train over 16 hours a week as a multi-sport athlete and coach
-                            kids, youth, and adults. I also hold a degree in Adapted Physical Activity,
-                            where I worked with children and individuals with special needs—an experience
-                            that shaped how I tailor training to each person's level and abilities.
+                            at Profit with kids, youth, and adults. I also hold a degree in Adapted
+                            Physical Activity, where I worked with children and individuals with special
+                            needs—an experience that shaped how I tailor training to each person's level
+                            and abilities.
                         </p>
 
                         <p ref={el => textRefs.current[2] = el} style={styles.text}>
