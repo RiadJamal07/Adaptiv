@@ -15,7 +15,35 @@ const images = [img1, img2, img3, img4, img5];
 const HyperplexedCarousel = () => {
     const sectionRef = useRef(null);
     const headingRef = useRef(null);
+    const touchStartX = useRef(null);
+    const lbTouchStartX = useRef(null);
     const [selectedIndex, setSelectedIndex] = useState(null);
+
+    // Only open lightbox on clean tap, not after a swipe
+    const handleTouchStart = (e) => { touchStartX.current = e.touches[0].clientX; };
+    const handleClick = (i) => {
+        if (touchStartX.current !== null) return;
+        setSelectedIndex(i);
+    };
+    const handleTouchEnd = (i, e) => {
+        if (touchStartX.current === null) return;
+        const diff = Math.abs(e.changedTouches[0].clientX - touchStartX.current);
+        touchStartX.current = null;
+        if (diff < 10) setSelectedIndex(i);
+    };
+
+    // Lightbox swipe
+    const lbTouchStart = (e) => { lbTouchStartX.current = e.touches[0].clientX; };
+    const lbTouchEnd = (e) => {
+        if (lbTouchStartX.current === null) return;
+        const diff = e.changedTouches[0].clientX - lbTouchStartX.current;
+        lbTouchStartX.current = null;
+        if (Math.abs(diff) > 50) {
+            setSelectedIndex(i => diff < 0 ? (i + 1) % images.length : (i - 1 + images.length) % images.length);
+        } else if (Math.abs(diff) < 10) {
+            setSelectedIndex(null);
+        }
+    };
 
     useEffect(() => {
         const ctx = gsap.context(() => {
@@ -58,7 +86,9 @@ const HyperplexedCarousel = () => {
                     <div
                         key={i}
                         className="gallery-item"
-                        onClick={() => setSelectedIndex(i)}
+                        onTouchStart={handleTouchStart}
+                        onTouchEnd={(e) => handleTouchEnd(i, e)}
+                        onClick={(e) => handleClick(i, e)}
                     >
                         <img src={src} alt={`Gallery ${i + 1}`} draggable="false" />
                         <div className="gallery-overlay" />
@@ -75,6 +105,8 @@ const HyperplexedCarousel = () => {
                         animate={{ opacity: 1 }}
                         exit={{ opacity: 0 }}
                         transition={{ duration: 0.25 }}
+                        onTouchStart={lbTouchStart}
+                        onTouchEnd={lbTouchEnd}
                         onClick={() => setSelectedIndex(null)}
                     >
                         <button
