@@ -20,8 +20,8 @@ const Contact = () => {
         {
             icon: <FaInstagram />,
             label: 'Instagram',
-            value: '@Omar.zaatiti',
-            href: 'https://instagram.com/Omar.zaatiti',
+            value: '@adaptiv.f.i.t',
+            href: 'https://www.instagram.com/adaptiv.f.i.t/',
             color: '#E4405F',
         },
         {
