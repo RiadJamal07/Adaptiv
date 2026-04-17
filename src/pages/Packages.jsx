@@ -77,7 +77,7 @@ const Packages = () => {
                         <span style={styles.altContactLabel}>Or reach out via</span>
                         <div style={styles.altLinks}>
                             <a
-                                href="https://www.instagram.com/adaptiv.lb"
+                                href="https://www.instagram.com/adaptiv.f.i.t/"
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 style={styles.altLink}
