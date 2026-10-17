@@ -15,7 +15,7 @@ const Services = () => {
         {
             icon: <FaChild />,
             number: '01',
-            title: 'Adaptive',
+            title: 'Adaptiv',
             description: 'Special needs 1-on-1 private sessions tailored to each individual\'s abilities and goals.',
             features: [
                 'Developmental delays & ADHD / Autism spectrum',
