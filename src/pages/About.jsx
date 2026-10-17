@@ -143,7 +143,7 @@ const About = () => {
 
                         <p ref={el => textRefs.current[1] = el} style={styles.text}>
                             Today, I train over 16 hours a week as a multi-sport athlete and coach
-                            kids, youth, and adults at Profit. I also hold a degree in Adapted
+                            kids, youth, and adults. I also hold a degree in Adapted
                             Physical Activity, where I worked with children and individuals with special
                             needs—an experience that shaped how I tailor training to each person's level
                             and abilities.

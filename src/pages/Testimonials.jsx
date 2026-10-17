@@ -38,6 +38,11 @@ const reviews = [
         name: "Sahar Saidi",
         role: "Parent",
         text: "I came to Lebanon for a summer vacation and was recommended to have my beloved son, Tarek, train with Coach Omar. Tarek has ADHD, and I'm truly grateful for the patience, understanding, and care Coach Omar showed during their sessions. It was a wonderful experience for my son, and I look forward to meeting him again when we visit Lebanon next year."
+    },
+    {
+        name: "Abir Deeb",
+        role: "Runner",
+        text: "I've been training with Coach Omar for the past six months, and I've noticed significant improvements in both my speed and endurance. What truly sets Omar apart is his genuine care for his athletes, consistent follow-ups, and ability to adapt training plans to individual circumstances, whether it's illness, a busy schedule, or other unexpected challenges. This makes training both effective and sustainable."
     }
 ];
 
