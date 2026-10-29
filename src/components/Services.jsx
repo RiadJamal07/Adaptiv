@@ -1,7 +1,8 @@
 import React, { useRef, useEffect } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { FaChild, FaHeartbeat, FaRunning, FaArrowRight } from 'react-icons/fa';
+import { FaChild, FaHeartbeat, FaRunning, FaArrowRight, FaVideo } from 'react-icons/fa';
+import { LAB_URL } from '../config';
 import TiltCard from './TiltCard';
 
 
@@ -47,6 +48,20 @@ const Services = () => {
                 'Running & Cycling programs',
                 'Duathlon & Triathlon programs',
             ],
+        },
+        {
+            icon: <FaVideo />,
+            number: '04',
+            title: 'Gait Analysis Lab',
+            description: 'Frame-by-frame running analysis with a detailed, coach-written report. From your phone, or on the track.',
+            features: [
+                'Online analysis from a 20-second phone clip',
+                'Optional 1-hour call to go through it together',
+                '1-hour session on the track',
+                'Full PDF report with drills and strength work',
+            ],
+            href: LAB_URL,
+            cta: 'Book an Analysis',
         },
     ];
 
@@ -188,8 +203,8 @@ const Services = () => {
                             </ul>
 
                             {/* Card Footer */}
-                            <div style={styles.cardFooter} onClick={scrollToContact}>
-                                <span style={styles.learnMore}>Book a Consultation</span>
+                            <div style={styles.cardFooter} onClick={service.href ? () => { window.location.href = service.href; } : scrollToContact}>
+                                <span style={styles.learnMore}>{service.cta || 'Book a Consultation'}</span>
                                 <FaArrowRight style={styles.arrow} />
                             </div>
 

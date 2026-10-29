@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
+import { LAB_URL } from '../config';
 import { motion, AnimatePresence } from 'framer-motion';
 import { FaBars, FaTimes } from 'react-icons/fa';
 import logo from '../assets/adaptiv-logo.svg';
@@ -39,6 +40,7 @@ const Navbar = () => {
         { name: 'Services', path: '#services' },
         { name: 'Get Started', path: '#packages' },
         { name: 'Testimonials', path: '#testimonials' },
+        { name: 'Gait Lab', path: LAB_URL },
         { name: 'Contact', path: '#contact' },
     ];
 
@@ -57,6 +59,7 @@ const Navbar = () => {
     }, []);
 
     const handleNavClick = (e, path) => {
+        if (!path.startsWith('#')) { setIsOpen(false); return; }
         e.preventDefault();
         const element = document.querySelector(path);
         if (element) {
